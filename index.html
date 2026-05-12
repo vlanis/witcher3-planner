@@ -890,10 +890,10 @@ function renderSN(id,sk,unlocked){
   const eqBtn=rank>0&&unlocked
     ?'<button class="'+eqBtnCls+'" onclick="event.stopPropagation();'+eqBtnOC+'" title="'+eqBtnTitle+'">'+eqBtnStar+'</button>'
     :'';
-  const nodeOC=unlocked?'snClick(\''+id+'\')':'';
+  const nodeOC=unlocked?'window.innerWidth<1024?openSkillAction(\''+id+'\'):snClick(\''+id+'\')':'';
   const starHtml=slotted?'<span class="sn-slot-star">\u2605</span>':'';
   const draggable=rank>0&&!locked?'draggable="true"':'';
-  return '<div class="'+cls+'" '+draggable+' data-id="'+id+'" onclick="'+nodeOC+'" onmouseenter="showTT(event,\''+id+'\')" onmouseleave="hideTT()" ondragstart="onSnDragStart(event,\''+id+'\')">'
+  return '<div class="'+cls+'" '+draggable+' data-id="'+id+'" onclick="'+nodeOC+'" onmouseenter="showTT(event,\''+id+'\')" onmouseleave="hideTT()" ondragstart="if(window.innerWidth>=1024)onSnDragStart(event,\''+id+'\')">'
     +'<div class="sn-row1"><span class="sn-icon">'+sk.icon+'</span><span class="sn-name">'+sk.name+'</span>'+starHtml+'</div>'
     +'<div class="sn-desc">'+effDesc+'</div>'
     +'<div class="sn-bottom">'+pips+eqBtn+'</div>'
