@@ -241,6 +241,159 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
 .smopt:hover{border-color:var(--gold-dim);background:var(--bg4);}
 .smopt.taken{opacity:.35;pointer-events:none;}
 .smopt.synhint{border-color:var(--gold-dim);color:var(--gold);}
+
+/* mobile-only elements hidden by default on desktop */
+.hamburger-btn { display: none; }
+.mobile-hdr-stats { display: none; }
+#sheet-footer { display: none; }
+#sheet-handle { display: none; }
+
+@media (max-width: 1023px) {
+  /* App layout */
+  .app {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  /* Tree panel — full width, natural height */
+  .tree-panel {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    flex: 1 1 auto;
+    border-right: none;
+    padding-bottom: 56px; /* room for sticky footer */
+  }
+
+  /* Char panel — becomes fixed slide-up sheet */
+  .char-panel {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 72vh;
+    max-height: 72vh;
+    width: 100%;
+    min-width: 0;
+    flex: none;
+    border-top: 2px solid var(--border);
+    border-left: none;
+    border-right: none;
+    border-radius: 12px 12px 0 0;
+    background: var(--bg2);
+    transform: translateY(100%);
+    transition: transform 0.28s ease;
+    z-index: 150;
+    overflow-y: auto;
+    display: flex !important;
+    flex-direction: column;
+  }
+  .char-panel.sheet-open {
+    transform: translateY(0);
+  }
+  /* Visual drag handle via pseudo-element at top of sheet */
+  .char-panel::before {
+    content: '';
+    display: block;
+    flex-shrink: 0;
+    width: 40px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 10px auto 6px;
+  }
+
+  /* Info panel — hidden; replaced by action sheet */
+  .info-panel {
+    display: none !important;
+  }
+
+  /* Skill nodes — slightly taller for touch targets */
+  .sn {
+    min-height: 52px;
+  }
+
+  /* Tree grid tightening */
+  .tree-body {
+    padding: 4px;
+  }
+  .tier-row {
+    gap: 4px;
+  }
+  .col-headers {
+    gap: 4px;
+    padding: 0 4px;
+  }
+  .col-hdr {
+    font-size: 8px;
+  }
+
+  /* Header — show hamburger, hide desktop stats/buttons, show mobile chips */
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+  .hdr-stats { display: none !important; }
+  .hdr-btns  { display: none !important; }
+  .mobile-hdr-stats {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 8px;
+  }
+  .mobile-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 14px;
+    line-height: 1.1;
+  }
+  .mobile-stat small {
+    font-size: 7px;
+    color: var(--text2);
+    letter-spacing: 0.06em;
+  }
+
+  /* VIEW BUILD sticky footer */
+  #sheet-footer {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 8px 16px;
+  }
+
+  /* Sheet handle hit-area bar shown above the sheet when open */
+  #sheet-handle {
+    display: block !important;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 151;
+    padding: 10px 0;
+    cursor: pointer;
+    text-align: center;
+  }
+}
 </style>
 </head>
 <body>
