@@ -248,6 +248,28 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
 #sheet-footer { display: none; }
 #sheet-handle { display: none; }
 
+.mob-drawer-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 4px;
+  -webkit-tap-highlight-color: transparent;
+}
+.mob-drawer-cancel {
+  color: var(--text2);
+  background: none;
+  border-color: transparent;
+  margin-top: 4px;
+}
+
 @media (max-width: 1023px) {
   /* App layout */
   .app {
@@ -1245,6 +1267,15 @@ function closeBuildSheet() {
     }
   }, { passive: true });
 })();
+
+function openMobileMenu() {
+  var el = document.getElementById('mobile-menu');
+  if (el) el.style.display = 'block';
+}
+function closeMobileMenu() {
+  var el = document.getElementById('mobile-menu');
+  if (el) el.style.display = 'none';
+}
 </script>
 
 <!-- Mobile VIEW BUILD footer -->
@@ -1258,5 +1289,19 @@ function closeBuildSheet() {
 
 <!-- Sheet handle bar (shown above sheet when open, tap to close) -->
 <div id="sheet-handle" onclick="closeBuildSheet()"></div>
+
+<!-- Mobile hamburger menu drawer -->
+<div id="mobile-menu"
+  onclick="closeMobileMenu()"
+  style="display:none;position:fixed;inset:0;z-index:250;background:rgba(0,0,0,0.6)">
+  <div onclick="event.stopPropagation()"
+    style="position:absolute;bottom:0;left:0;right:0;background:var(--bg2);border-top:2px solid var(--border);border-radius:12px 12px 0 0;padding:16px 16px 24px">
+    <div style="text-align:center;color:var(--text2);font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.14em;margin-bottom:14px">MENU</div>
+    <button class="mob-drawer-btn" onclick="exportBuild();closeMobileMenu()">EXPORT</button>
+    <button class="mob-drawer-btn" onclick="importBuild();closeMobileMenu()">IMPORT</button>
+    <button class="mob-drawer-btn" onclick="resetAll();closeMobileMenu()">RESET</button>
+    <button class="mob-drawer-btn mob-drawer-cancel" onclick="closeMobileMenu()">CANCEL</button>
+  </div>
+</div>
 </body>
 </html>
