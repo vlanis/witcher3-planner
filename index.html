@@ -965,6 +965,10 @@ function fullRender(){
   renderMutations();
   renderLevel();
   renderInfo();
+  var mSpent = document.getElementById('m-spent');
+  var mSlotted = document.getElementById('m-slotted');
+  if (mSpent) mSpent.textContent = totalPts();
+  if (mSlotted) mSlotted.textContent = slottedCount();
 }
 
 // ─────────────────────────────
