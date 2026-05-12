@@ -399,6 +399,7 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
 </head>
 <body>
 <header>
+  <button class="hamburger-btn" onclick="openMobileMenu()" aria-label="Menu">&#9776;</button>
   <div class="logo">WITCHER III <small>BUILD PLANNER · NEXT GEN 4.0</small></div>
   <div class="hstats">
     <div class="hs"><div class="hs-v g" id="h-lv">1</div><div class="hs-l">MIN LV</div></div>
@@ -414,6 +415,10 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     <button class="hbtn" onclick="exportBuild()">EXPORT</button>
     <button class="hbtn" onclick="importBuild()">IMPORT</button>
     <button class="hbtn danger" onclick="resetAll()">RESET</button>
+  </div>
+  <div class="mobile-hdr-stats">
+    <span class="mobile-stat"><span id="m-spent">0</span><small>SPENT</small></span>
+    <span class="mobile-stat"><span id="m-slotted">0</span><small>SLOTTED</small></span>
   </div>
 </header>
 
