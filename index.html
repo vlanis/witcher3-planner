@@ -270,6 +270,45 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
   margin-top: 4px;
 }
 
+.as-header {
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.as-name {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--gold);
+}
+.as-desc {
+  font-family: 'Crimson Text', serif;
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.as-btn {
+  display: block;
+  width: 100%;
+  padding: 13px 14px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+.as-btn:last-child { border-bottom: none; }
+.as-btn:active { background: var(--bg3); }
+.as-cancel {
+  color: var(--text2);
+  border-top: 2px solid var(--border);
+}
+
 @media (max-width: 1023px) {
   /* App layout */
   .app {
@@ -1276,6 +1315,63 @@ function closeMobileMenu() {
   var el = document.getElementById('mobile-menu');
   if (el) el.style.display = 'none';
 }
+
+function closeSkillAction() {
+  document.getElementById('skill-action').style.display = 'none';
+  document.getElementById('skill-action-overlay').style.display = 'none';
+}
+
+function openSkillAction(id) {
+  var sk = SKILLS[id];
+  if (!sk) return;
+  var rank = S.skills[id] || 0;
+  var maxRank = sk.ranks.length;
+  var slotted = isSlotted(id);
+
+  var rankDesc = sk.ranks[rank > 0 ? rank - 1 : 0] || '';
+  if (typeof rankDesc === 'object' && rankDesc !== null) {
+    rankDesc = rankDesc.desc || rankDesc.description || '';
+  }
+
+  var html = '<div class="as-header">'
+    + '<div class="as-name">' + sk.name + ' (' + rank + '/' + maxRank + ')</div>'
+    + '<div class="as-desc">' + rankDesc + '</div>'
+    + '</div>';
+
+  if (rank < maxRank) {
+    html += '<button class="as-btn" onclick="rankUpAction(\'' + id + '\')">'
+      + '+ Rank up'
+      + '</button>';
+  }
+  if (rank > 0 && !slotted) {
+    html += '<button class="as-btn" onclick="closeSkillAction();openSM(\'' + id + '\')">Assign to slot &#9660;</button>';
+  }
+  if (slotted) {
+    html += '<button class="as-btn" onclick="removeSlotAction(\'' + id + '\')">Remove from slot</button>';
+  }
+  html += '<button class="as-btn as-cancel" onclick="closeSkillAction()">Cancel</button>';
+
+  var el = document.getElementById('skill-action');
+  el.innerHTML = html;
+  el.style.display = 'block';
+  document.getElementById('skill-action-overlay').style.display = 'block';
+}
+
+function rankUpAction(id) {
+  var rank = S.skills[id] || 0;
+  var maxRank = SKILLS[id] ? SKILLS[id].ranks.length : 3;
+  if (rank < maxRank) {
+    setRank(id, rank + 1);
+    fullRender();
+  }
+  closeSkillAction();
+}
+
+function removeSlotAction(id) {
+  unslot(id);
+  fullRender();
+  closeSkillAction();
+}
 </script>
 
 <!-- Mobile VIEW BUILD footer -->
@@ -1302,6 +1398,15 @@ function closeMobileMenu() {
     <button class="mob-drawer-btn" onclick="resetAll();closeMobileMenu()">RESET</button>
     <button class="mob-drawer-btn mob-drawer-cancel" onclick="closeMobileMenu()">CANCEL</button>
   </div>
+</div>
+
+<!-- Mobile skill action sheet -->
+<div id="skill-action-overlay"
+  onclick="closeSkillAction()"
+  style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.5)">
+</div>
+<div id="skill-action"
+  style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:301;background:var(--bg2);border:1px solid var(--border);border-radius:8px;min-width:240px;max-width:90vw;overflow:hidden">
 </div>
 </body>
 </html>
