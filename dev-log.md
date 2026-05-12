@@ -59,9 +59,33 @@ Running log of changes, bugs, and decisions. Update this after every Claude CLI 
 
 ---
 
+## 2026-05-12 — Responsive mobile layout
+
+**Changed:**
+- Added `@media (max-width: 1023px)` CSS block for all mobile overrides. Tablet landscape (≥1024px) keeps the unchanged desktop 3-column layout.
+- `.char-panel` repositioned as a fixed slide-up sheet (72vh) toggled via `.sheet-open` class; `-webkit-transform: translateZ(0)` added for iOS fixed-position compositing.
+- `.info-panel` hidden on mobile (excluded per `spec-interactions.md`).
+- Skill tap on mobile routes to an action sheet overlay instead of hover tooltip + drag-and-drop.
+- New static HTML elements added: `#sheet-footer` (VIEW BUILD button), `#sheet-handle` (tap-to-close bar), `#mobile-menu` (hamburger drawer), `#skill-action-overlay`, `#skill-action`.
+- New header elements: `.hamburger-btn`, `.mobile-hdr-stats` with `#m-spent` / `#m-slotted` stat chips.
+- New JS functions: `openBuildSheet`, `closeBuildSheet`, `openMobileMenu`, `closeMobileMenu`, `openSkillAction`, `closeSkillAction`, `rankUpAction`, `removeSlotAction`.
+- `fullRender()` — 4 lines appended to sync mobile stat chips after every render.
+- `renderSN()` — onclick branches on `window.innerWidth < 1024` to route to action sheet; `ondragstart` suppressed on mobile.
+
+**Why:** Desktop-only layout was unusable on phones and tablets below 1024px. Mobile users need a tap-driven interaction model since drag-and-drop and hover tooltips are not viable on touch screens.
+
+**Watch out:**
+- `overflow: visible` was removed from `.app` — it conflicted with the desktop spec and had to be cleared before mobile sheet positioning worked correctly.
+- `!important` removed from `#sheet-footer display` so JS `toggle`/`show`/`hide` can override it; do not re-add it.
+- `-webkit-tap-highlight-color: transparent` added to interactive elements — do not remove or iOS tap flash returns.
+- Drag-and-drop is fully disabled on mobile (no fallback partial support); action sheet is the only slot-assignment path on touch devices.
+- Known limitation: no mobile testing on real Safari iOS hardware yet — Chrome DevTools device toolbar was used. Verify on Safari iOS before treating mobile as stable.
+
+---
+
 ## Next session — things to consider
 
-- Mobile layout: the current layout is desktop-only (3-column fixed). Mobile was attempted but reverted due to layout bugs. A proper responsive approach would likely need a tab-based single-column layout on mobile rather than stacked panels.
 - The `?b=` URL can get very long for complex builds — could consider LZ compression (lz-string library) if URL length becomes a problem
 - Keyboard navigation / accessibility not implemented
 - No visual feedback on drag-start (ghost label works but node could also dim more clearly)
+- Verify mobile layout on real Safari iOS hardware (action sheet, slide-up build panel, hamburger menu)
