@@ -1211,6 +1211,52 @@ document.getElementById('slot-modal').addEventListener('click',function(e){if(e.
 })();
 
 fullRender();
+
+function openBuildSheet() {
+  document.querySelector('.char-panel').classList.add('sheet-open');
+  var footer = document.getElementById('sheet-footer');
+  var handle = document.getElementById('sheet-handle');
+  if (footer) footer.style.display = 'none';
+  if (handle) {
+    handle.style.bottom = '72vh';
+    handle.style.display = 'block';
+  }
+}
+
+function closeBuildSheet() {
+  document.querySelector('.char-panel').classList.remove('sheet-open');
+  var footer = document.getElementById('sheet-footer');
+  var handle = document.getElementById('sheet-handle');
+  if (footer) footer.style.display = '';
+  if (handle) handle.style.display = 'none';
+}
+
+(function() {
+  var panel = document.querySelector('.char-panel');
+  if (!panel) return;
+  var startY = 0;
+  panel.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  panel.addEventListener('touchend', function(e) {
+    var delta = e.changedTouches[0].clientY - startY;
+    if (delta > 60 && panel.classList.contains('sheet-open')) {
+      closeBuildSheet();
+    }
+  }, { passive: true });
+})();
 </script>
+
+<!-- Mobile VIEW BUILD footer -->
+<div id="sheet-footer">
+  <button
+    onclick="openBuildSheet()"
+    style="width:100%;padding:12px;background:var(--bg3);border:1px solid var(--gold);color:var(--gold);font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.12em;cursor:pointer;border-radius:4px">
+    VIEW BUILD &#9650;
+  </button>
+</div>
+
+<!-- Sheet handle bar (shown above sheet when open, tap to close) -->
+<div id="sheet-handle" onclick="closeBuildSheet()"></div>
 </body>
 </html>
