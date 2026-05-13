@@ -13,7 +13,7 @@
   --green:#1e8449;--green-b:#27ae60;--green-bg:rgba(30,132,73,.12);--green-bdr:rgba(30,132,73,.3);
   --brown:#7d5a2a;--brown-b:#b8844a;
   --bg:#0b0a07;--bg2:#121009;--bg3:#19160e;--bg4:#211e15;--bg5:#2a261a;
-  --border:#252115;--border2:#352f1f;--text:#c4b488;--text-d:#6e6244;--text-b:#e0cca0;
+  --border:#252115;--border2:#352f1f;--text:#c4b488;--text-d:#6e6244;--text-b:#e0cca0;--text2:#6e6244;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;}
@@ -323,7 +323,7 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     height: auto;
     flex: 1 1 auto;
     border-right: none;
-    padding-bottom: 56px; /* room for sticky footer */
+    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
   }
 
   /* Char panel — becomes fixed slide-up sheet */
@@ -1286,7 +1286,7 @@ function openBuildSheet() {
   var handle = document.getElementById('sheet-handle');
   if (footer) footer.style.display = 'none';
   if (handle) {
-    handle.style.bottom = '72vh';
+    handle.style.bottom = 'calc(72vh + env(safe-area-inset-bottom, 0px))';
     handle.style.display = 'block';
   }
 }
