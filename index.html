@@ -413,7 +413,7 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     margin-right: 4px;
     -webkit-tap-highlight-color: transparent;
   }
-  .hdr-stats { display: none !important; }
+  .hstats    { display: none !important; }
   .hdr-btns  { display: none !important; }
   .mobile-hdr-stats {
     display: flex;
@@ -479,7 +479,7 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     <div class="hdiv"></div>
     <div class="hs"><div class="hs-v w" id="h-sl">0/12</div><div class="hs-l">SLOTTED</div></div>
   </div>
-  <div style="display:flex;gap:5px;">
+  <div class="hdr-btns" style="display:flex;gap:5px;">
     <button class="hbtn" onclick="exportBuild()">EXPORT</button>
     <button class="hbtn" onclick="importBuild()">IMPORT</button>
     <button class="hbtn danger" onclick="resetAll()">RESET</button>
