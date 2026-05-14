@@ -957,47 +957,110 @@ function renderSN(id,sk,unlocked){
 // ─────────────────────────────
 // RENDER — slots
 // ─────────────────────────────
+function mutConicGrad(types){
+  if(!types||types.length===0) return '#555';
+  var colorMap={combat:'#e05040',signs:'#3498db',alchemy:'#27ae60'};
+  var n=types.length;
+  var deg=360/n;
+  var stops='';
+  for(var i=0;i<types.length;i++){
+    var start=i*deg;
+    var end=(i+1)*deg;
+    stops+=(stops?',':'')+colorMap[types[i]]+' '+start+'deg '+end+'deg';
+  }
+  return 'conic-gradient('+stops+')';
+}
+
+function renderMutCircle(){
+  var mut=S.mutation?MUTATIONS.find(function(m){return m.id===S.mutation;}):null;
+  var grad=mutConicGrad(mut?mut.types:null);
+  var name=mut?mut.name:'—';
+  var glowColors={combat:'rgba(224,80,64,.4)',signs:'rgba(52,152,219,.4)',alchemy:'rgba(39,174,96,.4)'};
+  var glow=mut?'0 0 16px '+glowColors[mut.types[0]]:'none';
+  return '<div class="mut-circle-wrap" onclick="openSelMutModal()" title="Click to select mutation">'
+    +'<div class="mut-circle" style="background:'+grad+';box-shadow:'+glow+'">'
+    +'<div class="mut-circle-inner">'
+    +'<span class="mut-circle-name">'+name+'</span>'
+    +'</div></div>'
+    +'<div class="mut-circle-hint">click to change</div>'
+    +'</div>';
+}
+
 function renderSlots(){
-  const SL=[1,2,4,6,8,10,12,15,18,22,26,30];
-  const mc={r:'red',b:'blue',g:'green'};
-  const mn={r:'RED MUTAGEN',b:'BLUE MUTAGEN',g:'GREEN MUTAGEN'};
-  let html='';
-  for(let g=0;g<4;g++){
-    const grp=S.slots[g];
-    const mut=grp.mut;
-    const cls=mut?mut+'m':'';
-    let matchCount=0;
-    for(const sid of grp.skills){
+  var SL=[1,2,4,6,8,10,12,15,18,22,26,30];
+  var mc={r:'red',b:'blue',g:'green'};
+  var mn={r:'RED MUTAGEN',b:'BLUE MUTAGEN',g:'GREEN MUTAGEN'};
+  function renderGroup(g){
+    var grp=S.slots[g];
+    var mut=grp.mut;
+    var cls=mut?mut+'m':'';
+    var matchCount=0;
+    for(var i=0;i<grp.skills.length;i++){
+      var sid=grp.skills[i];
       if(sid&&SKILLS[sid]&&mut&&SKILLS[sid].color===mc[mut]) matchCount++;
     }
-    const synClass=!mut?'none':matchCount===3?'full':matchCount>0?'partial':'none';
-    const synText=!mut?'No mutagen':matchCount===3?'✦ Full Synergy':matchCount>0?`◆ ${matchCount}/3 match`:'◇ No match';
-    html+=`<div class="sg">
-      <div class="sg-hdr">
-        <div class="mut-d ${cls}" onclick="openMM(${g})" title="Set mutagen"></div>
-        <div><div class="sg-lbl">${mut?mn[mut]:'NO MUTAGEN'}</div><div style="font-size:7px;color:var(--text-d)">Group ${g+1}</div></div>
-      </div>
-      <div class="aslots">`;
-    for(let s=0;s<3;s++){
-      const idx=g*3+s;
-      const sid=grp.skills[s];
-      const lv=SL[idx]||30;
-      if(sid&&SKILLS[sid]){
-        const sk=SKILLS[sid];
-        const rank=S.skills[sid]||1;
-        const isMatch=mut&&sk.color===mc[mut];
-        html+=`<div class="aslot occ ${sk.color}${isMatch?' syn':''}">
-          <span class="ai">${sk.icon}</span>
-          <span class="an">${sk.name}</span>
-          <span class="ar">R${rank}</span>
-          <button class="armbtn" onclick="unslotGS(${g},${s})">✕</button>
-        </div>`;
+    var synClass=!mut?'none':matchCount===3?'full':matchCount>0?'partial':'none';
+    var synText=!mut?'No mutagen':matchCount===3?'❖ Full Synergy':matchCount>0?'◆ '+matchCount+'/3 match':'◇ No match';
+    var h='<div class="sg">'
+      +'<div class="sg-hdr">'
+      +'<div class="mut-d '+cls+'" onclick="openMM('+g+')" title="Set mutagen"></div>'
+      +'<div><div class="sg-lbl">'+(mut?mn[mut]:'NO MUTAGEN')+'</div>'
+      +'<div style="font-size:7px;color:var(--text-d)">Group '+(g+1)+'</div></div>'
+      +'</div><div class="aslots">';
+    for(var s=0;s<3;s++){
+      var idx=g*3+s;
+      var ssid=grp.skills[s];
+      var lv=SL[idx]||30;
+      if(ssid&&SKILLS[ssid]){
+        var sk=SKILLS[ssid];
+        var rank=S.skills[ssid]||1;
+        var isMatch=mut&&sk.color===mc[mut];
+        h+='<div class="aslot occ '+sk.color+(isMatch?' syn':'')+'">'
+          +'<span class="ai">'+sk.icon+'</span>'
+          +'<span class="an">'+sk.name+'</span>'
+          +'<span class="ar">R'+rank+'</span>'
+          +'<button class="armbtn" onclick="unslotGS('+g+','+s+')">&#10005;</button>'
+          +'</div>';
       } else {
-        html+='<div class="aslot empty" data-g="'+g+'" data-s="'+s+'">— slot '+(s+1)+' · lv '+lv+' —</div>';
+        h+='<div class="aslot empty" data-g="'+g+'" data-s="'+s+'">&#8212; slot '+(s+1)+' · lv '+lv+' &#8212;</div>';
       }
     }
-    html+=`</div><div class="syn-bar ${synClass}">${synText}</div></div>`;
+    h+='</div><div class="syn-bar '+synClass+'">'+synText+'</div></div>';
+    return h;
   }
+  var mutSection='';
+  if(S.mutation){
+    var mutObj=MUTATIONS.find(function(m){return m.id===S.mutation;});
+    var typeColors={combat:'var(--red-b)',signs:'var(--blue-b)',alchemy:'var(--green-b)'};
+    function barHTML(){
+      var b='<div class="slot-type-bar">';
+      for(var ti=0;ti<mutObj.types.length;ti++) b+='<div class="slot-type-seg" style="background:'+typeColors[mutObj.types[ti]]+'"></div>';
+      return b+'</div>';
+    }
+    function bSlot(i){
+      var sid=S.mutSlots[i];
+      if(sid&&SKILLS[sid]){
+        var sk=SKILLS[sid];
+        var rank=S.skills[sid]||1;
+        return '<div class="aslot occ '+sk.color+' mut-bonus-slot" data-bi="'+i+'">'
+          +'<span class="ai">'+sk.icon+'</span>'
+          +'<span class="an">'+sk.name+'</span>'
+          +'<span class="ar">R'+rank+'</span>'
+          +'<button class="armbtn" onclick="unslotBonusSlot('+i+')">&#10005;</button>'
+          +barHTML()+'</div>';
+      }
+      return '<div class="aslot empty mut-bonus-slot" data-bi="'+i+'" onclick="openBonusSM('+i+')">'
+        +'&#8212; bonus slot &#8212;'+barHTML()+'</div>';
+    }
+    mutSection='<div class="mut-bonus-row">'+bSlot(0)+bSlot(1)+'</div>'
+      +renderMutCircle()
+      +'<div class="mut-bonus-row">'+bSlot(2)+bSlot(3)+'</div>';
+  } else {
+    mutSection=renderMutCircle();
+  }
+  var html='<div class="groups-row">'+renderGroup(0)+renderGroup(1)+'</div>'
+    +'<div class="mut-section">'+mutSection+'</div>'
+    +'<div class="groups-row">'+renderGroup(2)+renderGroup(3)+'</div>';
   document.getElementById('slots-grid').innerHTML=html;
 }
 
