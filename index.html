@@ -1216,7 +1216,39 @@ function openMM(g){
 function closeMM(){document.getElementById('mut-modal').classList.remove('show');S.pendMG=null;}
 function setMut(c){if(S.pendMG!==null)S.slots[S.pendMG].mut=c;closeMM();fullRender();}
 
-function selMut(id){S.mutation=id;fullRender();}
+function openSelMutModal(){
+  var typeColors={combat:'var(--red-b)',signs:'var(--blue-b)',alchemy:'var(--green-b)'};
+  var html='<div class="mut-sel-none'+(S.mutation===null?' sel':'')+'" onclick="selMut(null)">&#8212; No Mutation Selected &#8212;</div>';
+  html+='<div class="mut-sel-grid">';
+  for(var i=0;i<MUTATIONS.length;i++){
+    var m=MUTATIONS[i];
+    var grad=mutConicGrad(m.types);
+    var typeLabels='';
+    for(var t=0;t<m.types.length;t++){
+      if(t>0) typeLabels+=' &middot; ';
+      typeLabels+='<span style="color:'+typeColors[m.types[t]]+'">'+m.types[t].charAt(0).toUpperCase()+m.types[t].slice(1)+'</span>';
+    }
+    html+='<div class="mut-sel-card'+(S.mutation===m.id?' sel':'')+'" onclick="selMut(\''+m.id+'\')">'
+      +'<div class="mut-sel-circle" style="background:'+grad+'"></div>'
+      +'<div class="mut-sel-body">'
+      +'<div class="mut-sel-name">'+m.name+'</div>'
+      +'<div class="mut-sel-types">'+typeLabels+'</div>'
+      +'<div class="mut-sel-desc">'+m.desc+'</div>'
+      +'</div></div>';
+  }
+  html+='</div>';
+  document.getElementById('sel-mut-grid').innerHTML=html;
+  document.getElementById('sel-mut-modal').classList.add('show');
+}
+function closeSelMutModal(){
+  document.getElementById('sel-mut-modal').classList.remove('show');
+}
+function selMut(id){
+  S.mutation=id;
+  S.mutSlots=[null,null,null,null];
+  closeSelMutModal();
+  fullRender();
+}
 
 // ─────────────────────────────
 // TOOLTIP
@@ -1357,6 +1389,7 @@ function resetAll(){
 
 document.getElementById('mut-modal').addEventListener('click',function(e){if(e.target===this)closeMM();});
 document.getElementById('slot-modal').addEventListener('click',function(e){if(e.target===this)closeSM();});
+document.getElementById('sel-mut-modal').addEventListener('click',function(e){if(e.target===this)closeSelMutModal();});
 
 // ─────────────────────────────
 // URL PARAM IMPORT
