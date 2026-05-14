@@ -1064,19 +1064,6 @@ function renderSlots(){
 }
 
 // ─────────────────────────────
-// RENDER — mutations
-// ─────────────────────────────
-function renderMutations(){
-  document.getElementById('mut-none').className='mut-none'+(S.mutation===null?' sel':'');
-  document.getElementById('mut-grid').innerHTML=MUTATIONS.map(m=>
-    `<div class="mo${S.mutation===m.id?' sel':''}" onclick="selMut('${m.id}')">
-      <div class="mo-name">${m.name}</div>
-      <div class="mo-desc">${m.desc}</div>
-    </div>`
-  ).join('');
-}
-
-// ─────────────────────────────
 // RENDER — level card + header
 // ─────────────────────────────
 function renderLevel(){
@@ -1092,7 +1079,7 @@ function renderLevel(){
   document.getElementById('h-c').textContent=branchPts('red');
   document.getElementById('h-s').textContent=branchPts('blue');
   document.getElementById('h-a').textContent=branchPts('green');
-  document.getElementById('h-sl').textContent=slottedCount()+'/12';
+  document.getElementById('h-sl').textContent=slottedCount()+'/'+(S.mutation?16:12);
 }
 
 // ─────────────────────────────
@@ -1139,7 +1126,6 @@ function renderInfo(){
 function fullRender(){
   renderTree();
   renderSlots();
-  renderMutations();
   renderLevel();
   renderInfo();
   var mSpent = document.getElementById('m-spent');
@@ -1230,7 +1216,7 @@ function openMM(g){
 function closeMM(){document.getElementById('mut-modal').classList.remove('show');S.pendMG=null;}
 function setMut(c){if(S.pendMG!==null)S.slots[S.pendMG].mut=c;closeMM();fullRender();}
 
-function selMut(id){S.mutation=id;renderMutations();}
+function selMut(id){S.mutation=id;fullRender();}
 
 // ─────────────────────────────
 // TOOLTIP
