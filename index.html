@@ -520,14 +520,7 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     <div class="pills" id="pills"></div>
   </div>
 
-  <div class="sec-t">BLOOD & WINE MUTATION</div>
-  <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:2px;padding:9px 11px;">
-    <div style="font-size:10px;color:var(--text-d);font-style:italic;margin-bottom:6px;">Requires "Turn and Face the Strange" (Blood & Wine DLC). One active at a time.</div>
-    <div class="mut-none sel" id="mut-none" onclick="selMut(null)">No Mutation Selected</div>
-    <div class="mut-grid" id="mut-grid"></div>
-  </div>
-
-  <div class="sec-t" style="margin-top:10px;">ACTIVE SKILL SLOTS <span style="color:var(--text-d);font-family:'Crimson Text',serif;font-size:10px;font-style:italic;letter-spacing:0;"> — click ◆ to set mutagen · ✕ to remove</span></div>
+  <div class="sec-t" style="margin-top:10px;">ACTIVE SKILL SLOTS <span style="color:var(--text-d);font-family:'Crimson Text',serif;font-size:10px;font-style:italic;letter-spacing:0;"> — click ◆ to set mutagen · click circle to set mutation · ✕ to remove</span></div>
   <div class="slots-grid" id="slots-grid"></div>
 </div></div>
 
@@ -559,6 +552,25 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     <p style="font-size:10px;color:var(--text-d);">Select a group and slot (✦ = color synergy match):</p>
     <div class="slot-mog" id="sm-grid"></div>
     <button class="mcancel" onclick="closeSM()">CANCEL</button>
+  </div>
+</div>
+
+<!-- Mutation Select Modal -->
+<div class="ov" id="sel-mut-modal">
+  <div class="mdl" style="max-width:480px;">
+    <h3>SELECT MUTATION</h3>
+    <div id="sel-mut-grid"></div>
+    <button class="mcancel" onclick="closeSelMutModal()">CANCEL</button>
+  </div>
+</div>
+
+<!-- Bonus Slot Skill Picker Modal -->
+<div class="ov" id="bonus-slot-modal">
+  <div class="mdl">
+    <h3>EQUIP BONUS SLOT</h3>
+    <p style="font-size:10px;color:var(--text-d);margin-bottom:8px;" id="bsm-hint"></p>
+    <div class="slot-mog" id="bsm-grid"></div>
+    <button class="mcancel" onclick="closeBonusSM()">CANCEL</button>
   </div>
 </div>
 
