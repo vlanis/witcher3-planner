@@ -140,7 +140,6 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
 .pill.gc{background:var(--green-bg);color:var(--green-b);border:1px solid var(--green-bdr);}
 
 /* Active slots */
-.slots-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
 .sg{background:var(--bg3);border:1px solid var(--border2);border-radius:2px;padding:7px 9px;}
 .sg-hdr{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
 .mut-d{width:16px;height:16px;transform:rotate(45deg);border:1px solid var(--border2);cursor:pointer;transition:all .2s;background:var(--bg5);flex-shrink:0;}
@@ -990,7 +989,7 @@ function renderSlots(){
   var SL=[1,2,4,6,8,10,12,15,18,22,26,30];
   var mc={r:'red',b:'blue',g:'green'};
   var mn={r:'RED MUTAGEN',b:'BLUE MUTAGEN',g:'GREEN MUTAGEN'};
-  function renderGroup(g){
+  var renderGroup=function(g){
     var grp=S.slots[g];
     var mut=grp.mut;
     var cls=mut?mut+'m':'';
@@ -1027,7 +1026,7 @@ function renderSlots(){
     }
     h+='</div><div class="syn-bar '+synClass+'">'+synText+'</div></div>';
     return h;
-  }
+  };
   var mutSection='';
   if(S.mutation){
     var mutObj=MUTATIONS.find(function(m){return m.id===S.mutation;});
