@@ -1032,12 +1032,12 @@ function renderSlots(){
   if(S.mutation){
     var mutObj=MUTATIONS.find(function(m){return m.id===S.mutation;});
     var typeColors={combat:'var(--red-b)',signs:'var(--blue-b)',alchemy:'var(--green-b)'};
-    function barHTML(){
+    var barHTML=function(){
       var b='<div class="slot-type-bar">';
       for(var ti=0;ti<mutObj.types.length;ti++) b+='<div class="slot-type-seg" style="background:'+typeColors[mutObj.types[ti]]+'"></div>';
       return b+'</div>';
-    }
-    function bSlot(i){
+    };
+    var bSlot=function(i){
       var sid=S.mutSlots[i];
       if(sid&&SKILLS[sid]){
         var sk=SKILLS[sid];
@@ -1051,7 +1051,7 @@ function renderSlots(){
       }
       return '<div class="aslot empty mut-bonus-slot" data-bi="'+i+'" onclick="openBonusSM('+i+')">'
         +'&#8212; bonus slot &#8212;'+barHTML()+'</div>';
-    }
+    };
     mutSection='<div class="mut-bonus-row">'+bSlot(0)+bSlot(1)+'</div>'
       +renderMutCircle()
       +'<div class="mut-bonus-row">'+bSlot(2)+bSlot(3)+'</div>';
