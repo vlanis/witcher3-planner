@@ -817,13 +817,17 @@ function calcLevel(){
     s>=18?18:s>=12?12:s>=6?6:1,
     a>=18?18:a>=12?12:a>=6?6:1
   );
-  const lv=Math.max(lvS,lvP,tierLv);
+  const ML=[3,9,16,28];
+  const lastMutGrp=S.slots.reduce((max,g,i)=>g.mut!==null?i:max,-1);
+  const lvM=lastMutGrp>=0?ML[lastMutGrp]:1;
+  const lv=Math.max(lvS,lvP,tierLv,lvM);
   const pills=[];
   if(sl>1) pills.push({l:`${sl} active slots`,t:'sl'});
+  if(lastMutGrp>=0) pills.push({l:`${lastMutGrp+1} mutagen slot${lastMutGrp>0?'s':''}`,t:'sl'});
   if(c>=6) pills.push({l:`Combat T${c>=18?4:c>=12?3:2}`,t:'rc'});
   if(s>=6) pills.push({l:`Signs T${s>=18?4:s>=12?3:2}`,t:'bc'});
   if(a>=6) pills.push({l:`Alchemy T${a>=18?4:a>=12?3:2}`,t:'gc'});
-  const reason = tp>0||sl>0 ? `${tp} pts invested · ${sl} slots used` : 'No skills selected.';
+  const reason = tp>0||sl>0||lastMutGrp>=0 ? `${tp} pts invested · ${sl} slots used` : 'No skills selected.';
   return{lv,reason,pills};
 }
 

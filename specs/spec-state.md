@@ -89,7 +89,7 @@ Whether a skill id appears in any slot across any group.
 
 ## Minimum level calculation
 
-The minimum character level required for the current build is the maximum of three independent constraints:
+The minimum character level required for the current build is the maximum of four independent constraints:
 
 ### 1. Slot constraint
 ```
@@ -113,7 +113,15 @@ lvFromTiers = max(
 )
 ```
 
-**Result:** `minLevel = max(lvFromSlots, lvFromPts, lvFromTiers)`
+### 4. Mutagen slot constraint
+Mutagen slots unlock one per group at levels 3, 9, 16, 28:
+```
+mutagenLevels = [3, 9, 16, 28]
+lastFilledGroup = highest index i where slots[i].mut !== null  (or -1 if none)
+lvFromMutagens = lastFilledGroup >= 0 ? mutagenLevels[lastFilledGroup] : 1
+```
+
+**Result:** `minLevel = max(lvFromSlots, lvFromPts, lvFromTiers, lvFromMutagens)`
 
 ---
 
