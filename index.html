@@ -761,14 +761,14 @@ const SKILLS = {
 };
 
 const MUTATIONS = [
-  {id:'euphoria',name:'Euphoria',desc:'Each toxicity point increases sword damage and Sign intensity by 0.75%.'},
-  {id:'metamorphosis',name:'Metamorphosis',desc:'Critical effects trigger random decoctions for 120s at no toxicity cost (up to 5 simultaneously).'},
-  {id:'piercing_cold',name:'Piercing Cold',desc:'Aard has 30% freeze chance. Knocked-down + frozen = instant death.'},
-  {id:'mutated_skin',name:'Mutated Skin',desc:'Each AP reduces damage taken by 15% (max 45%).'},
-  {id:'bloodbath',name:'Bloodbath',desc:'Each kill: +5% attack power until hit (max 250% in 5-stack increments).'},
-  {id:'conductors_magic',name:'Conductors of Magic',desc:'Sword attacks deal bonus damage equal to a % of Sign intensity.'},
-  {id:'magic_sensibilities',name:'Magic Sensibilities',desc:'Sword critical hits trigger a random sign effect for free.'},
-  {id:'toxic_blood',name:'Toxic Blood',desc:'Taking damage deals toxicity-scaled damage back to the attacker.'},
+  {id:'euphoria',name:'Euphoria',types:['alchemy'],desc:'Each toxicity point increases sword damage and Sign intensity by 0.75%.'},
+  {id:'metamorphosis',name:'Metamorphosis',types:['combat','signs','alchemy'],desc:'Critical effects trigger random decoctions for 120s at no toxicity cost (up to 5 simultaneously).'},
+  {id:'piercing_cold',name:'Piercing Cold',types:['signs'],desc:'Aard has 30% freeze chance. Knocked-down + frozen = instant death.'},
+  {id:'mutated_skin',name:'Mutated Skin',types:['combat','alchemy'],desc:'Each AP reduces damage taken by 15% (max 45%).'},
+  {id:'bloodbath',name:'Bloodbath',types:['combat'],desc:'Each kill: +5% attack power until hit (max 250% in 5-stack increments).'},
+  {id:'conductors_magic',name:'Conductors of Magic',types:['signs','combat'],desc:'Sword attacks deal bonus damage equal to a % of Sign intensity.'},
+  {id:'magic_sensibilities',name:'Magic Sensibilities',types:['signs'],desc:'Sword critical hits trigger a random sign effect for free.'},
+  {id:'toxic_blood',name:'Toxic Blood',types:['alchemy'],desc:'Taking damage deals toxicity-scaled damage back to the attacker.'},
 ];
 
 // ─────────────────────────────
@@ -783,10 +783,12 @@ const S = {
     {mut:null, skills:[null,null,null]},
   ],
   mutation: null,
+  mutSlots: [null,null,null,null],
   tree: 'combat',
   sel: null,
   pendMG: null,
   pendSS: null,
+  pendBS: null,
 };
 
 // ─────────────────────────────
@@ -800,8 +802,8 @@ function branchPts(color) {
   return p;
 }
 function totalPts(){ return Object.values(S.skills).reduce((a,b)=>a+b,0); }
-function slottedCount(){ return S.slots.reduce((a,g)=>a+g.skills.filter(Boolean).length,0); }
-function isSlotted(id){ return S.slots.some(g=>g.skills.includes(id)); }
+function slottedCount(){ return S.slots.reduce(function(a,g){return a+g.skills.filter(Boolean).length;},0)+S.mutSlots.filter(Boolean).length; }
+function isSlotted(id){ return S.slots.some(function(g){return g.skills.includes(id);})||S.mutSlots.includes(id); }
 function tierUnlocked(treeName,req){
   return branchPts(TREES[treeName].color) >= req;
 }
