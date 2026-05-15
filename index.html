@@ -1462,7 +1462,7 @@ function importBuild(){
 }
 function resetAll(){
   if(!confirm('Reset entire build?'))return;
-  Object.assign(S,{skills:{},slots:[{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]}],mutation:null,sel:null});
+  Object.assign(S,{skills:{},slots:[{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]}],mutation:null,mutSlots:[null,null,null,null],sel:null});
   fullRender();
 }
 
