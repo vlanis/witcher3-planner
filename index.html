@@ -1354,14 +1354,35 @@ document.addEventListener('dragend',function(){
 document.addEventListener('drop',function(e){
   e.preventDefault();
   removeGhost();
-  document.querySelectorAll('.aslot.drag-over').forEach(el=>el.classList.remove('drag-over'));
+  document.querySelectorAll('.aslot.drag-over').forEach(function(el){el.classList.remove('drag-over');});
   if(!dragId)return;
-  const under=document.elementFromPoint(e.clientX,e.clientY);
+  var under=document.elementFromPoint(e.clientX,e.clientY);
   if(!under)return;
-  const slot=under.closest('.aslot');
+  var slot=under.closest('.aslot');
   if(!slot)return;
-  const g=parseInt(slot.dataset.g);
-  const s=parseInt(slot.dataset.s);
+
+  // Bonus slot drop
+  var biStr=slot.dataset.bi;
+  if(biStr!==undefined&&biStr!==''){
+    var bi=parseInt(biStr);
+    if(isNaN(bi))return;
+    if(S.mutSlots[bi])return;
+    var mut=MUTATIONS.find(function(m){return m.id===S.mutation;});
+    if(!mut)return;
+    var colorMap={combat:'red',signs:'blue',alchemy:'green'};
+    var validColors=mut.types.map(function(t){return colorMap[t];});
+    if(validColors.indexOf(SKILLS[dragId].color)===-1)return;
+    if(S.mutSlots.indexOf(dragId)!==-1)return;
+    unslot(dragId);
+    S.mutSlots[bi]=dragId;
+    dragId=null;
+    fullRender();
+    return;
+  }
+
+  // Standard slot drop
+  var g=parseInt(slot.dataset.g);
+  var s=parseInt(slot.dataset.s);
   if(isNaN(g)||isNaN(s))return;
   if(S.slots[g].skills[s])return;
   unslot(dragId);
