@@ -1203,7 +1203,8 @@ function assignSlot(g,s){
   closeSM();fullRender();
 }
 function unslot(id){
-  S.slots.forEach(g=>{for(let s=0;s<3;s++)if(g.skills[s]===id)g.skills[s]=null;});
+  S.slots.forEach(function(g){for(var s=0;s<3;s++)if(g.skills[s]===id)g.skills[s]=null;});
+  for(var i=0;i<4;i++) if(S.mutSlots[i]===id) S.mutSlots[i]=null;
   fullRender();
 }
 function unslotGS(g,s){S.slots[g].skills[s]=null;fullRender();}
@@ -1242,6 +1243,43 @@ function openSelMutModal(){
 }
 function closeSelMutModal(){
   document.getElementById('sel-mut-modal').classList.remove('show');
+}
+function openBonusSM(i){
+  var mut=MUTATIONS.find(function(m){return m.id===S.mutation;});
+  if(!mut) return;
+  S.pendBS=i;
+  var colorMap={combat:'red',signs:'blue',alchemy:'green'};
+  var validColors=mut.types.map(function(t){return colorMap[t];});
+  document.getElementById('bsm-hint').textContent='Accepts: '+mut.types.join(', ');
+  var html='';
+  var ids=Object.keys(SKILLS);
+  for(var k=0;k<ids.length;k++){
+    var id=ids[k];
+    var sk=SKILLS[id];
+    if(!(S.skills[id]>0)) continue;
+    if(validColors.indexOf(sk.color)===-1) continue;
+    if(isSlotted(id)) continue;
+    var rank=S.skills[id];
+    html+='<div class="smopt" onclick="assignBonusSlot('+i+',\''+id+'\')">'
+      +'<span style="font-size:9px;">'+sk.name+' R'+rank+'</span>'
+      +'</div>';
+  }
+  if(!html) html='<p style="font-size:10px;color:var(--text-d);">No eligible skills available.</p>';
+  document.getElementById('bsm-grid').innerHTML=html;
+  document.getElementById('bonus-slot-modal').classList.add('show');
+}
+function closeBonusSM(){
+  document.getElementById('bonus-slot-modal').classList.remove('show');
+  S.pendBS=null;
+}
+function assignBonusSlot(i,id){
+  S.mutSlots[i]=id;
+  closeBonusSM();
+  fullRender();
+}
+function unslotBonusSlot(i){
+  S.mutSlots[i]=null;
+  fullRender();
 }
 function selMut(id){
   S.mutation=id;
@@ -1390,6 +1428,7 @@ function resetAll(){
 document.getElementById('mut-modal').addEventListener('click',function(e){if(e.target===this)closeMM();});
 document.getElementById('slot-modal').addEventListener('click',function(e){if(e.target===this)closeSM();});
 document.getElementById('sel-mut-modal').addEventListener('click',function(e){if(e.target===this)closeSelMutModal();});
+document.getElementById('bonus-slot-modal').addEventListener('click',function(e){if(e.target===this)closeBonusSM();});
 
 // ─────────────────────────────
 // URL PARAM IMPORT
