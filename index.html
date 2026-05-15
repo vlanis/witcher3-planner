@@ -1408,7 +1408,7 @@ document.addEventListener('contextmenu',function(e){
 // EXPORT / IMPORT / RESET
 // ─────────────────────────────
 function exportBuild(){
-  const code=btoa(JSON.stringify({skills:S.skills,slots:S.slots,mutation:S.mutation}));
+  var code=btoa(JSON.stringify({skills:S.skills,slots:S.slots,mutation:S.mutation,mutSlots:S.mutSlots}));
   const url=window.location.origin+window.location.pathname+'?b='+code;
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(url).then(()=>showExportToast('Build URL copied to clipboard!')).catch(()=>prompt('Copy this build URL:',url));
@@ -1437,6 +1437,7 @@ function importBuild(){
     S.skills=d.skills||{};
     S.slots=d.slots||[{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]}];
     S.mutation=d.mutation||null;
+    S.mutSlots=d.mutSlots||[null,null,null,null];
     fullRender();
   }catch{alert('Invalid build code.');}
 }
@@ -1463,6 +1464,7 @@ document.getElementById('bonus-slot-modal').addEventListener('click',function(e)
     if(d.skills)S.skills=d.skills;
     if(d.slots)S.slots=d.slots;
     if(d.mutation!==undefined)S.mutation=d.mutation;
+    if(d.mutSlots)S.mutSlots=d.mutSlots;
   }catch(e){console.warn('Could not parse build from URL:',e);}
 })();
 
