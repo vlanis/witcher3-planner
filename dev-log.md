@@ -15,6 +15,28 @@ Running log of changes, bugs, and decisions. Update this after every Claude CLI 
 
 ---
 
+## 2026-05-15 — CSS and data extraction
+
+**Changed:**
+- Created `styles.css` (~505 lines) — all CSS extracted from `<style>` block in `index.html`, includes desktop, mobile responsive, and animation rules.
+- Created `data.js` — all game data constants (SKILLS, MUTATIONS, tier thresholds, color mappings) extracted from inlined data objects.
+- Restructured SKILLS and MUTATIONS: translatable strings now wrapped in `text: { name, desc, ranks }` object for i18n readiness; structural properties (`icon`, `color`, `max`) remain top-level.
+- Renamed conflicting color mappings: three `colorMap` declarations consolidated to `COLOR_HEX` (RGB hex values) and `COLOR_CODE` (single-letter skill color codes).
+- New constant: `TIER_THRESHOLDS = [0, 6, 12, 18]` — replaces inline threshold checks throughout render logic.
+- Deduplicated globals: `SL`, `ML`, `mc`, `typeColors`, `colorN` — were re-declared in multiple function bodies, now single definitions in data.js.
+- Updated `index.html` property paths and removed all extracted data; full integration of external files into render functions.
+- `index.html` size: ~1629 lines → ~870 lines.
+
+**Why:** Single-file structure was becoming unwieldy and code review unfriendly. Extracting styles and data improves maintainability, allows version control of game data separately from UI logic, and prepares the codebase for potential i18n (translation support). Deduplication of locals removes hidden state bugs and improves testability.
+
+**Watch out:**
+- `data.js` must be loaded before `index.html`'s `<script>` block for all constants to be available at runtime.
+- Changing SKILLS or MUTATIONS `text` structure or adding new `types` requires coordinated updates in render functions (especially `renderSN`, `mutConicGrad`, bonus slot filtering).
+- `COLOR_HEX` and `COLOR_CODE` are now the source of truth — any color changes must go there; removing one will break downstream usage.
+- CSS extracted to file — ensure `styles.css` is served or embedded before `index.html` loads to avoid FOUC (flash of unstyled content) in production.
+
+---
+
 ## 2026-05 — Initial build (Claude.ai chat)
 
 ### Features implemented
