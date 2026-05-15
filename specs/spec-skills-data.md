@@ -194,16 +194,18 @@ Skills are defined in `const SKILLS` (flat lookup by id) and `const TREES` (grid
 
 8 mutations. Only 1 active at a time. Requires completing "Turn and Face the Strange" questline in the Blood & Wine DLC.
 
-| ID | Name | Effect |
-|----|------|--------|
-| euphoria | Euphoria | Each toxicity point: sword dmg and sign intensity +0.75% |
-| metamorphosis | Metamorphosis | Critical effects trigger random free decoctions for 120s (up to 5 simultaneously) |
-| piercing_cold | Piercing Cold | Aard 30% freeze chance; knocked-down + frozen = instant death |
-| mutated_skin | Mutated Skin | Each AP reduces damage taken by 15% (max 45%) |
-| bloodbath | Bloodbath | Each kill: attack power +5% until Geralt takes damage (max 25 stacks) |
-| conductors_magic | Conductors of Magic | Sword attacks deal bonus damage equal to a % of sign intensity |
-| magic_sensibilities | Magic Sensibilities | Sword crits trigger a random sign effect for free |
-| toxic_blood | Toxic Blood | Taking damage deals toxicity-scaled damage back to the attacker |
+The `types` array on each mutation drives the conic-gradient colors on the mutation circle and determines which skill colors are accepted in bonus slots.
+
+| ID | Name | Types | Effect |
+|----|------|-------|--------|
+| euphoria | Euphoria | alchemy | Each toxicity point: sword dmg and sign intensity +0.75% |
+| metamorphosis | Metamorphosis | combat, signs, alchemy | Critical effects trigger random free decoctions for 120s (up to 5 simultaneously) |
+| piercing_cold | Piercing Cold | signs | Aard 30% freeze chance; knocked-down + frozen = instant death |
+| mutated_skin | Mutated Skin | combat, alchemy | Each AP reduces damage taken by 15% (max 45%) |
+| bloodbath | Bloodbath | combat | Each kill: attack power +5% until Geralt takes damage (max 25 stacks) |
+| conductors_magic | Conductors of Magic | signs, combat | Sword attacks deal bonus damage equal to a % of sign intensity |
+| magic_sensibilities | Magic Sensibilities | signs | Sword crits trigger a random sign effect for free |
+| toxic_blood | Toxic Blood | alchemy | Taking damage deals toxicity-scaled damage back to the attacker |
 
 ---
 

@@ -134,13 +134,25 @@ All colours and spacing use CSS custom properties defined in `:root`. Never use 
 - Skill points progress bar below
 - Requirement pills (`.pills`) showing which thresholds are active
 
-### Blood & Wine mutation section
-- Introductory note line
-- "No Mutation Selected" option (`.mut-none`)
-- 2-column grid of mutation cards (`.mut-grid`)
-
 ### Active skill slots section
-- 2-column grid of 4 groups (`.slots-grid`)
+
+The active slots panel uses a three-row layout when a mutation is active:
+
+```
+┌─────────────────────────────┐
+│  Groups 0 & 1  (row 1–2)   │
+├─────────────────────────────┤
+│  Mutation section           │
+│  [slot 0] [circle] [slot 1] │
+│  [slot 2] [circle] [slot 3] │
+├─────────────────────────────┤
+│  Groups 2 & 3  (row 3–4)   │
+└─────────────────────────────┘
+```
+
+When no mutation is active, the mutation section collapses to just the clickable circle (no bonus slots shown).
+
+**Skill slot groups** (`.slots-grid`, 2-column grid of 4 groups):
 - Each group (`.sg`) contains:
   - Header with mutagen diamond + label
   - 3 skill slots (`.aslot`)
@@ -148,6 +160,20 @@ All colours and spacing use CSS custom properties defined in `:root`. Never use 
 - Mutagen diamond (`.mut-d`): 16×16px, `transform: rotate(45deg)`
 - Diamond color classes: `.rm` (red), `.bm` (blue), `.gm` (green)
 - Skill slot height: 27px, dashed border when empty, solid when occupied
+
+**Mutation circle** (`.mut-circle`):
+- 70px diameter circle (56px on mobile)
+- CSS `conic-gradient` background, one arc segment per type color
+- 2px gold border (`var(--gold)`)
+- Inner cutout text: mutation name abbreviation or "—"; Cinzel font, `var(--gold)` color
+- Clickable — opens `#sel-mut-modal`
+- `box-shadow` glow using the first type's color at 40% opacity
+
+**Bonus slots** (`.mut-bonus-slot`, also `.aslot`):
+- 4 total: indices 0–1 displayed above the circle, 2–3 below
+- Only rendered when a mutation is active
+- Same visual as standard `.aslot` + class `.mut-bonus-slot`
+- 3px color bar at bottom of each slot — one segment per accepted type color (combat=`var(--red-b)`, signs=`var(--blue-b)`, alchemy=`var(--green-b)`)
 
 ---
 
@@ -168,6 +194,8 @@ All colours and spacing use CSS custom properties defined in `:root`. Never use 
 - Click outside modal to close
 - Mutagen modal: list of coloured dot options
 - Slot assignment modal: 2-column grid of 12 slot buttons
+- Mutation selection modal (`#sel-mut-modal`): "No Mutation" option + 2-column grid of mutation cards, each with a mini conic circle, mutation name, type tags, and description
+- Bonus slot skill picker (`#bonus-slot-modal`): filtered list of eligible skills (ranked, matching type color, not already slotted); 1-column on mobile
 
 ---
 
