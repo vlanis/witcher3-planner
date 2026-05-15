@@ -1390,6 +1390,7 @@ document.addEventListener('drop',function(e){
     if(!mut)return;
     var colorMap={combat:'red',signs:'blue',alchemy:'green'};
     var validColors=mut.types.map(function(t){return colorMap[t];});
+    if(!SKILLS[dragId])return;
     if(validColors.indexOf(SKILLS[dragId].color)===-1)return;
     if(S.mutSlots.indexOf(dragId)!==-1)return;
     unslot(dragId);
@@ -1458,7 +1459,7 @@ function importBuild(){
     S.mutation=d.mutation||null;
     S.mutSlots=d.mutSlots||[null,null,null,null];
     fullRender();
-  }catch{alert('Invalid build code.');}
+  }catch(e){alert('Invalid build code.');}
 }
 function resetAll(){
   if(!confirm('Reset entire build?'))return;
