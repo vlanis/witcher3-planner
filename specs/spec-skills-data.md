@@ -11,16 +11,21 @@ Skills are defined in `const SKILLS` (flat lookup by id) and `const TREES` (grid
 ```js
 // SKILLS entry shape
 'skill_id': {
-  name: 'Display Name',
+  // Structural properties (non-translatable)
   icon: '🔥',          // emoji used as icon
   color: 'red',        // 'red' | 'blue' | 'green' | 'brown'
   max: 3,              // max rank (always 3 for investable skills, 1 for general)
-  desc: 'Short description shown when rank = 0',
-  ranks: [             // one entry per rank (length must equal max)
-    'Rank 1 effect text',
-    'Rank 2 effect text',
-    'Rank 3 effect text',
-  ]
+
+  // Translatable text — wrapped in a `text` object for i18n readiness
+  text: {
+    name: 'Display Name',
+    desc: 'Short description shown when rank = 0',
+    ranks: [           // one entry per rank (length must equal max)
+      'Rank 1 effect text',
+      'Rank 2 effect text',
+      'Rank 3 effect text',
+    ]
+  }
 }
 
 // TREES entry shape (per tree)

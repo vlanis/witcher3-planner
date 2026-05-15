@@ -27,6 +27,6 @@ All skill data reflects **Patch 4.0 (Next Gen Update)**. Skills max at Rank 3; d
 | Chrome (desktop) | Full |
 | Safari (desktop) | Full |
 | Firefox (desktop) | Full |
-| Mobile browsers | Not supported — desktop layout only |
+| Mobile browsers | Supported — responsive layout at ≤1023px |
 
 No frameworks, no dependencies. Runs as a local `file://` or on any static host (GitHub Pages, Netlify, etc.).
