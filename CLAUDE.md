@@ -11,8 +11,9 @@ The planner lets players design a character build before committing skill points
 ## Technology
 
 - **Pure HTML + CSS + vanilla JS** — no libraries, no bundler, no npm
-- All CSS lives in a single `<style>` block
-- All JS lives in a single `<script>` block at the bottom of `<body>`
+- CSS lives in `styles.css` (external file, must load before `index.html`'s script)
+- Game data (skills, mutations, constants) lives in `data.js` (must load before `index.html`'s script)
+- Remaining JS lives in a single `<script>` block at the bottom of `<body>` in `index.html`
 - No external dependencies except a Google Fonts import (Cinzel + Crimson Text)
 - Runs as a local file (`file://`) or hosted on any static host (GitHub Pages, Netlify)
 
@@ -46,8 +47,8 @@ See `spec-skills-data.md` for the complete authoritative skill list.
 
 ## Key constraints — never break these
 
-1. **Single file** — everything stays in one `.html` file
-2. **No external JS** — no React, no Vue, no jQuery
+1. **Three-file app** — `index.html` (markup + render logic), `styles.css` (all styles), `data.js` (all game data). No additional files.
+2. **No external JS libraries** — no React, no Vue, no jQuery
 3. **Game accuracy** — skill names, descriptions, and tier positions must match the wiki exactly
 4. **URL sharing** — the `?b=` query parameter must always encode/decode correctly
 5. **No backend** — everything runs client-side only
@@ -59,11 +60,14 @@ See `spec-skills-data.md` for the complete authoritative skill list.
 
 | File | Purpose |
 |------|---------|
-| `index.html` | The entire application |
+| `index.html` | Markup, render logic, and event handlers |
+| `styles.css` | All CSS — desktop layout, mobile responsive, animations |
+| `data.js` | All game data: SKILLS, MUTATIONS, TREES, TIER_THRESHOLDS, COLOR_HEX, COLOR_CODE |
 | `CLAUDE.md` | This file — project context for Claude CLI |
 | `specs/spec-skills-data.md` | Authoritative skill data (names, descriptions, ranks, tier positions) |
 | `specs/spec-interactions.md` | All user interactions and expected behaviours |
 | `specs/spec-layout.md` | Layout structure, CSS architecture, sizing rules |
+| `specs/spec-mutations.md` | Mutation circle, bonus slots, type filtering, state |
 | `specs/spec-state.md` | State shape, URL encoding, data flow |
 | `dev-log.md` | Running log of changes made and issues encountered |
 
@@ -71,7 +75,7 @@ See `spec-skills-data.md` for the complete authoritative skill list.
 
 ## Render architecture
 
-Every state mutation calls `fullRender()`, which fully replaces `.innerHTML` in five panels in order: `renderTree()` → `renderSlots()` → `renderMutations()` → `renderLevel()` → `renderInfo()`. No diffing, no virtual DOM — full replacement every time.
+Every state mutation calls `fullRender()`, which fully replaces `.innerHTML` in four panels in order: `renderTree()` → `renderSlots()` → `renderLevel()` → `renderInfo()`. No diffing, no virtual DOM — full replacement every time. (`renderMutations()` was removed in the mutation circle redesign — mutation state is now rendered inline within `renderSlots()`.)
 
 ---
 

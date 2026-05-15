@@ -133,16 +133,17 @@ lvFromMutagens = lastFilledGroup >= 0 ? mutagenLevels[lastFilledGroup] : 1
 
 ## Render pipeline
 
-Every state change calls `fullRender()` which calls all five render functions in order:
+Every state change calls `fullRender()` which calls all four render functions in order:
 
 ```
 fullRender()
-  ├── renderTree()       — rebuilds the skill grid HTML for the active tab
-  ├── renderSlots()      — rebuilds the 4-group active slots panel
-  ├── renderMutations()  — updates selected/unselected state on mutation cards
-  ├── renderLevel()      — updates level number, pts bar, pills, header stats
-  └── renderInfo()       — updates the right-panel skill detail (or placeholder)
+  ├── renderTree()    — rebuilds the skill grid HTML for the active tab
+  ├── renderSlots()   — rebuilds the 4-group active slots panel + mutation circle + bonus slots
+  ├── renderLevel()   — updates level number, pts bar, pills, header stats
+  └── renderInfo()    — updates the right-panel skill detail (or placeholder)
 ```
+
+Note: `renderMutations()` was removed in the mutation circle redesign. Mutation state (circle, bonus slots, modal) is now rendered inline within `renderSlots()`.
 
 Each render function generates HTML via string concatenation and sets `.innerHTML` on its target element. There is no virtual DOM or diffing — full re-render on every interaction.
 

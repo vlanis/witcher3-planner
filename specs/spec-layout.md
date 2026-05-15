@@ -224,6 +224,54 @@ When no mutation is active, the mutation section collapses to just the clickable
 
 ---
 
+## Mobile responsive layout (≤1023px)
+
+Tablet landscape (≥1024px) uses the unchanged desktop 3-column layout. Below 1024px, a separate CSS block (`@media (max-width: 1023px)`) activates a touch-first layout.
+
+### Breakpoint summary
+
+| Width | Layout |
+|-------|--------|
+| ≥1024px | Desktop — 3-column, drag-and-drop, hover tooltips |
+| ≤1023px | Mobile — single column, slide-up sheet, action overlay |
+
+### Key mobile changes
+
+- **`.info-panel`** — hidden on mobile (no room; info accessible via action sheet)
+- **`.char-panel`** — repositioned as a fixed slide-up sheet (72vh), toggled via `.sheet-open` class; `-webkit-transform: translateZ(0)` for iOS compositing
+- **`.tree-panel`** — fills full width
+- **Header** — shows `.hamburger-btn` (opens drawer) and `.mobile-hdr-stats` chip row (`#m-spent`, `#m-slotted`)
+- **Mutation circle** — scales to 56px (from 70px desktop); bonus slots to 80px
+- **Modals** (`#sel-mut-modal`, `#bonus-slot-modal`) — 1-column grid instead of 2-column
+
+### Mobile-only static HTML elements
+
+| Element | Purpose |
+|---------|---------|
+| `#sheet-footer` | "VIEW BUILD" button — opens the slide-up character sheet |
+| `#sheet-handle` | Tap-to-close bar at top of sheet |
+| `#mobile-menu` | Hamburger drawer (navigation, export, import, reset) |
+| `#skill-action-overlay` | Dimmed backdrop for skill action sheet |
+| `#skill-action` | Action sheet listing rank up / equip / remove options for a tapped skill |
+
+### Mobile interaction routing
+
+Skill node `onclick` branches on `window.innerWidth < 1024`:
+- **Desktop:** `snClick(id)` — selects skill, updates info panel
+- **Mobile:** `openSkillAction(id)` — opens action sheet overlay
+
+Drag-and-drop (`ondragstart`) is fully suppressed on mobile. Slot assignment goes through the action sheet instead.
+
+### Mobile JS functions
+
+`openBuildSheet`, `closeBuildSheet`, `openMobileMenu`, `closeMobileMenu`, `openSkillAction`, `closeSkillAction`, `rankUpAction`, `removeSlotAction`
+
+### `fullRender()` mobile sync
+
+4 lines appended to `fullRender()` sync the mobile stat chips (`#m-spent`, `#m-slotted`) after every render.
+
+---
+
 ## What must NOT be changed without explicit instruction
 
 - `overflow: hidden` on `body` and `.app`
