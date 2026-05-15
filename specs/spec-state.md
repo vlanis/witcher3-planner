@@ -22,11 +22,15 @@ const S = {
   // Selected Blood & Wine mutation id, or null
   mutation: null,
 
+  // Bonus skill slots granted by the active mutation (4 total: 0-1 above circle, 2-3 below)
+  mutSlots: [null, null, null, null],  // skill IDs at indices 0–3; null = empty
+
   // UI state (not persisted)
   tree: 'combat',      // active tree tab: 'combat' | 'signs' | 'alchemy' | 'general'
   sel: null,           // selected skill id, or null
   pendMG: null,        // pending mutagen group index (while modal is open)
   pendSS: null,        // pending slot-assign skill id (while modal is open)
+  pendBS: null,        // pending bonus slot index (while #bonus-slot-modal is open)
 };
 ```
 
@@ -38,7 +42,7 @@ const S = {
 
 ## Persisted vs UI state
 
-Only `skills`, `slots`, and `mutation` are persisted in the URL. The UI state (`tree`, `sel`, `pendMG`, `pendSS`) is always reset on load.
+Only `skills`, `slots`, `mutation`, and `mutSlots` are persisted in the URL. The UI state (`tree`, `sel`, `pendMG`, `pendSS`, `pendBS`) is always reset on load.
 
 ---
 
@@ -46,7 +50,7 @@ Only `skills`, `slots`, and `mutation` are persisted in the URL. The UI state (`
 
 ```js
 // Encode
-const payload = { skills: S.skills, slots: S.slots, mutation: S.mutation };
+const payload = { skills: S.skills, slots: S.slots, mutation: S.mutation, mutSlots: S.mutSlots };
 const code = btoa(JSON.stringify(payload));
 const url = window.location.origin + window.location.pathname + '?b=' + code;
 
@@ -56,6 +60,8 @@ const payload = JSON.parse(atob(raw));
 ```
 
 The import function accepts both a raw base64 code and a full URL.
+
+**Backwards compatibility:** If a stored payload does not contain `mutSlots` (old builds), default to `[null, null, null, null]` on decode.
 
 ---
 

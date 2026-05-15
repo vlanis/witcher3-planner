@@ -83,9 +83,39 @@ Running log of changes, bugs, and decisions. Update this after every Claude CLI 
 
 ---
 
+## 2026-05-15 — Mutation circle redesign
+
+**Changed:**
+- **Layout restructure:** Mutation selection moved from Character Overview (middle panel) to Active Skills panel (right panel). Replaced static mutation card grid with clickable 70px mutation circle (conic-gradient pie chart, gold border).
+- **State expansion:** Added `types` array to each MUTATIONS entry (drives circle segment colors and bonus slot filtering). Added `S.mutSlots = [null,null,null,null]` to state (persisted in URL encoding).
+- **Bonus slots:** 4 new skill slots appear above and below the mutation circle when a mutation is active. Slots filter by skill color matching mutation `types` — each slot shows a 3px bottom color bar indicating accepted types.
+- **UI components:** New `#sel-mut-modal` for 2-column mutation selection (pie circle + type tags + description per mutation). New `#bonus-slot-modal` for filtered skill assignment UI.
+- **New JS functions:** `mutConicGrad()`, `renderMutCircle()`, `openSelMutModal()`, `closeSelMutModal()`, `openBonusSM()`, `closeBonusSM()`, `assignBonusSlot()`, `unslotBonusSlot()`.
+- **Updated functions:** `renderSlots()` (restructured for new layout), `selMut()`, `unslot()`, `fullRender()`, `exportBuild()`, `importBuild()`, `resetAll()`.
+- **Drag-and-drop:** Extended to support bonus slots with type validation (only skills matching mutation types can be dragged to bonus slots).
+- **Mobile CSS:** Mutation circle scaled to 56px on mobile (≤1023px). Bonus slots 80px. Modal 1-column on ≤1023px.
+- **JS code style:** All new functions use `var` + `function` keywords (no `const`/`let`, no arrow functions). No nested template literals to preserve Safari compatibility.
+- **Cleanup:** Removed `renderMutations()` entirely. Updated all 4 spec files. Created new `specs/spec-mutations.md` documenting mutation types and bonus slot behavior.
+
+**Why:** Previous design put mutation selection in a cramped spot (Character Overview panel) where it competed with skill detail info. Bonus slots introduce a strategic element: player can invest extra points into complementary skills for their chosen mutation. Circular pie chart visualizes the mutation's type composition more intuitively than static cards.
+
+**Issues encountered and resolved:**
+- Block-scoped function declarations inside `if` blocks (`barHTML`, `bSlot`) caused Safari to hang. Fixed by converting them to `var` expressions (e.g., `var barHTML = function() { ... }`).
+- Duplicate `.slots-grid` CSS rule found in two places; removed one copy.
+- `renderGroup` was declared as a function inside an `if` block. Converted to `var` expression for consistency and Safari safety.
+
+**Watch out:**
+- The 4-way mutation type system (Red, Blue, Yellow, Green) must align across `mutConicGrad()`, bonus slot filtering, and drag-and-drop validation. Changing mutation `types` requires updating all three places.
+- `mutConicGrad()` uses 4 hardcoded stops (0°, 90°, 180°, 270°) to map colors. If types ever change in count or order, this function must be rebuilt entirely.
+- Bonus slots only appear when a mutation is selected. Deselecting the mutation wipes all bonus-slot skills (handled in `selMut()` reset block). Users are notified in the spec but not warned in-UI.
+- Mobile modal still uses `position: fixed` for modals; verify on real Safari iOS to ensure proper layering and dismiss behavior.
+
+---
+
 ## Next session — things to consider
 
 - The `?b=` URL can get very long for complex builds — could consider LZ compression (lz-string library) if URL length becomes a problem
 - Keyboard navigation / accessibility not implemented
 - No visual feedback on drag-start (ghost label works but node could also dim more clearly)
-- Verify mobile layout on real Safari iOS hardware (action sheet, slide-up build panel, hamburger menu)
+- Verify mobile layout on real Safari iOS hardware (action sheet, slide-up build panel, hamburger menu, mutation circle modal)
+- Consider adding a "clear bonus slots" quick action if players want to swap mutations and reset bonus assignments atomically

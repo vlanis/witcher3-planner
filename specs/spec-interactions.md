@@ -99,12 +99,48 @@ All user-facing interactions in the planner. When adding or changing behaviour, 
 
 ---
 
-## Blood & Wine mutation selector
+## Mutation circle
 
-- A grid of 8 mutation cards + "No Mutation" option
-- Clicking a mutation: selects it (highlighted border + ✦), deselects any previous
-- Clicking "No Mutation" or the already-selected mutation: clears selection
-- Only cosmetic/informational in the planner — does not affect skill slot calculations
+The mutation circle replaces the old static mutation card grid. It lives in the Active Skills panel between skill groups 1–2 and 3–4.
+
+- **Clicking the mutation circle** → calls `openSelMutModal()` → shows `#sel-mut-modal`
+- **Clicking a mutation card in the modal** → calls `selMut(id)` → sets `S.mutation`, clears `S.mutSlots = [null,null,null,null]`, closes modal, calls `fullRender()`
+- **Clicking "No Mutation" in the modal** → calls `selMut(null)` → same behaviour as above
+- **Clicking outside the modal overlay** → calls `closeSelMutModal()`, no change
+
+---
+
+## Bonus slot interactions
+
+Bonus slots (`.mut-bonus-slot`) appear above and below the mutation circle only when a mutation is active.
+
+- **Clicking an empty bonus slot** → calls `openBonusSM(slotIndex)` → shows `#bonus-slot-modal` with skills filtered to those matching the mutation's accepted types
+- **Clicking a skill in the bonus slot picker** → calls `assignBonusSlot(slotIndex, skillId)` → sets `S.mutSlots[slotIndex] = skillId`, closes modal, calls `fullRender()`
+- **Clicking ✕ on an occupied bonus slot** → calls `unslotBonusSlot(slotIndex)` → sets `S.mutSlots[slotIndex] = null`, calls `fullRender()`
+- **Changing the active mutation** (via `selMut`) → always clears all 4 `S.mutSlots` entries
+
+---
+
+## Mutation selection modal (`#sel-mut-modal`)
+
+- Opened by `openSelMutModal()` (called from circle click)
+- Content: "No Mutation" option at top, then 2-column grid of 8 mutation cards
+- Each card shows: mini conic circle, mutation name, type tags, description
+- Currently active mutation card is highlighted
+- Clicking a card or "No Mutation" calls `selMut()` and closes modal
+- Clicking outside the modal overlay calls `closeSelMutModal()`
+
+---
+
+## Bonus slot skill picker modal (`#bonus-slot-modal`)
+
+- Opened by `openBonusSM(slotIndex)`
+- Content: filtered list of eligible skills — must meet all three conditions:
+  1. `S.skills[id] > 0` (has invested ranks)
+  2. `SKILLS[id].color` maps to a color in the mutation's `types`
+  3. `isSlotted(id)` is false (not already in a standard or bonus slot)
+- Selecting a skill calls `assignBonusSlot(slotIndex, id)` and closes modal
+- Clicking outside overlay calls `closeBonusSM()`, no assignment
 
 ---
 
@@ -134,7 +170,7 @@ Updates live on every state change:
 
 ### RESET button
 - Confirms with `confirm()` dialog before proceeding
-- Clears all skills, all slots, clears mutation selection
+- Clears all skills, all slots, clears mutation selection, clears all 4 bonus mutation slots (`S.mutSlots = [null,null,null,null]`)
 
 ### URL auto-import on page load
 - On load, checks `window.location.search` for `?b=` parameter

@@ -140,7 +140,6 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
 .pill.gc{background:var(--green-bg);color:var(--green-b);border:1px solid var(--green-bdr);}
 
 /* Active slots */
-.slots-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
 .sg{background:var(--bg3);border:1px solid var(--border2);border-radius:2px;padding:7px 9px;}
 .sg-hdr{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
 .mut-d{width:16px;height:16px;transform:rotate(45deg);border:1px solid var(--border2);cursor:pointer;transition:all .2s;background:var(--bg5);flex-shrink:0;}
@@ -150,7 +149,7 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
 .mut-d.gm{background:var(--green);border-color:var(--green-b);box-shadow:0 0 7px rgba(30,132,73,.3);}
 .sg-lbl{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:1px;color:var(--text-d);}
 .aslots{display:flex;flex-direction:column;gap:2px;}
-.aslot{height:27px;border:1px dashed var(--border2);border-radius:1px;display:flex;align-items:center;padding:0 7px;gap:5px;transition:all .12s;}
+.aslot{height:27px;border:1px dashed var(--border2);border-radius:1px;display:flex;align-items:center;padding:0 7px;gap:5px;transition:all .12s;position:relative;overflow:hidden;}
 .aslot.empty{font-size:9px;color:var(--text-d);font-style:italic;}
 .aslot.occ{border-style:solid;}
 .aslot.occ.red{border-color:var(--red-bdr);background:var(--red-bg);}
@@ -168,7 +167,7 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
 .syn-bar.partial{background:rgba(200,169,110,.05);color:var(--gold-d);border:1px solid var(--gold-dim);}
 .syn-bar.full{background:rgba(200,169,110,.1);color:var(--gold);border:1px solid var(--gold-d);}
 
-/* Mutations */
+/* Mutations — old card grid (removed in Task 3, CSS kept for reference)
 .mut-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px;}
 .mo{padding:5px 7px;border:1px solid var(--border2);border-radius:2px;cursor:pointer;transition:all .12s;}
 .mo:hover{border-color:var(--gold-dim);background:var(--bg4);}
@@ -178,6 +177,35 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
 .mo-desc{font-size:10px;color:var(--text-d);line-height:1.3;}
 .mut-none{padding:4px 7px;border:1px dashed var(--border2);border-radius:2px;cursor:pointer;font-size:10px;color:var(--text-d);text-align:center;transition:all .12s;margin-bottom:4px;}
 .mut-none:hover,.mut-none.sel{border-color:var(--gold-dim);color:var(--text);}
+*/
+
+/* ── MUTATION SECTION ── */
+.slots-grid{display:flex;flex-direction:column;gap:8px;}
+.groups-row{display:flex;gap:5px;}
+.groups-row .sg{flex:1;}
+.mut-section{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);}
+.mut-bonus-row{display:flex;gap:6px;}
+.mut-bonus-slot{width:100px;cursor:pointer;}
+.mut-bonus-slot.empty{font-size:8.5px;}
+.slot-type-bar{position:absolute;bottom:0;left:0;right:0;height:3px;display:flex;}
+.slot-type-seg{flex:1;}
+.mut-circle-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;}
+.mut-circle{width:70px;height:70px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;transition:border-color .15s,box-shadow .15s;}
+.mut-circle:hover{border-color:var(--gold-l);}
+.mut-circle-inner{width:52px;height:52px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;text-align:center;padding:4px;}
+.mut-circle-name{font-family:'Cinzel',serif;font-size:7px;color:var(--gold);line-height:1.3;}
+.mut-circle-hint{font-size:7px;color:var(--text-d);}
+.mut-sel-none{padding:6px 8px;border:1px dashed var(--border2);border-radius:2px;cursor:pointer;font-size:10px;color:var(--text-d);text-align:center;margin-bottom:8px;transition:all .12s;}
+.mut-sel-none:hover,.mut-sel-none.sel{border-color:var(--gold-dim);color:var(--text);}
+.mut-sel-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.mut-sel-card{background:var(--bg4);border:1px solid var(--border2);border-radius:2px;padding:8px;cursor:pointer;display:flex;gap:8px;transition:all .12s;}
+.mut-sel-card:hover,.mut-sel-card.sel{border-color:var(--gold);background:rgba(200,169,110,.04);}
+.mut-sel-card.sel::after{content:'✦';color:var(--gold);font-size:9px;margin-left:auto;align-self:flex-start;}
+.mut-sel-circle{width:38px;height:38px;border-radius:50%;border:1px solid var(--border2);flex-shrink:0;}
+.mut-sel-body{flex:1;min-width:0;}
+.mut-sel-name{font-family:'Cinzel',serif;font-size:9.5px;color:var(--text-b);margin-bottom:2px;}
+.mut-sel-types{font-size:7.5px;margin-bottom:3px;}
+.mut-sel-desc{font-size:9.5px;color:var(--text-d);line-height:1.3;}
 
 /* ══════════════════════════
    RIGHT — INFO PANEL
@@ -462,6 +490,25 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     cursor: pointer;
     text-align: center;
   }
+
+  /* Mutation circle mobile sizing */
+  .mut-circle {
+    width: 56px;
+    height: 56px;
+  }
+  .mut-circle-inner {
+    width: 42px;
+    height: 42px;
+  }
+  .mut-circle-name {
+    font-size: 6px;
+  }
+  .mut-bonus-slot {
+    width: 80px;
+  }
+  .mut-sel-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -520,14 +567,7 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     <div class="pills" id="pills"></div>
   </div>
 
-  <div class="sec-t">BLOOD & WINE MUTATION</div>
-  <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:2px;padding:9px 11px;">
-    <div style="font-size:10px;color:var(--text-d);font-style:italic;margin-bottom:6px;">Requires "Turn and Face the Strange" (Blood & Wine DLC). One active at a time.</div>
-    <div class="mut-none sel" id="mut-none" onclick="selMut(null)">No Mutation Selected</div>
-    <div class="mut-grid" id="mut-grid"></div>
-  </div>
-
-  <div class="sec-t" style="margin-top:10px;">ACTIVE SKILL SLOTS <span style="color:var(--text-d);font-family:'Crimson Text',serif;font-size:10px;font-style:italic;letter-spacing:0;"> — click ◆ to set mutagen · ✕ to remove</span></div>
+  <div class="sec-t" style="margin-top:10px;">ACTIVE SKILL SLOTS <span style="color:var(--text-d);font-family:'Crimson Text',serif;font-size:10px;font-style:italic;letter-spacing:0;"> — click ◆ to set mutagen · click circle to set mutation · ✕ to remove</span></div>
   <div class="slots-grid" id="slots-grid"></div>
 </div></div>
 
@@ -559,6 +599,25 @@ header{height:46px;background:var(--bg2);border-bottom:1px solid var(--gold-dim)
     <p style="font-size:10px;color:var(--text-d);">Select a group and slot (✦ = color synergy match):</p>
     <div class="slot-mog" id="sm-grid"></div>
     <button class="mcancel" onclick="closeSM()">CANCEL</button>
+  </div>
+</div>
+
+<!-- Mutation Select Modal -->
+<div class="ov" id="sel-mut-modal">
+  <div class="mdl" style="max-width:480px;">
+    <h3>SELECT MUTATION</h3>
+    <div id="sel-mut-grid"></div>
+    <button class="mcancel" onclick="closeSelMutModal()">CANCEL</button>
+  </div>
+</div>
+
+<!-- Bonus Slot Skill Picker Modal -->
+<div class="ov" id="bonus-slot-modal">
+  <div class="mdl">
+    <h3>EQUIP BONUS SLOT</h3>
+    <p style="font-size:10px;color:var(--text-d);margin-bottom:8px;" id="bsm-hint"></p>
+    <div class="slot-mog" id="bsm-grid"></div>
+    <button class="mcancel" onclick="closeBonusSM()">CANCEL</button>
   </div>
 </div>
 
@@ -761,14 +820,14 @@ const SKILLS = {
 };
 
 const MUTATIONS = [
-  {id:'euphoria',name:'Euphoria',desc:'Each toxicity point increases sword damage and Sign intensity by 0.75%.'},
-  {id:'metamorphosis',name:'Metamorphosis',desc:'Critical effects trigger random decoctions for 120s at no toxicity cost (up to 5 simultaneously).'},
-  {id:'piercing_cold',name:'Piercing Cold',desc:'Aard has 30% freeze chance. Knocked-down + frozen = instant death.'},
-  {id:'mutated_skin',name:'Mutated Skin',desc:'Each AP reduces damage taken by 15% (max 45%).'},
-  {id:'bloodbath',name:'Bloodbath',desc:'Each kill: +5% attack power until hit (max 250% in 5-stack increments).'},
-  {id:'conductors_magic',name:'Conductors of Magic',desc:'Sword attacks deal bonus damage equal to a % of Sign intensity.'},
-  {id:'magic_sensibilities',name:'Magic Sensibilities',desc:'Sword critical hits trigger a random sign effect for free.'},
-  {id:'toxic_blood',name:'Toxic Blood',desc:'Taking damage deals toxicity-scaled damage back to the attacker.'},
+  {id:'euphoria',name:'Euphoria',types:['alchemy'],desc:'Each toxicity point increases sword damage and Sign intensity by 0.75%.'},
+  {id:'metamorphosis',name:'Metamorphosis',types:['combat','signs','alchemy'],desc:'Critical effects trigger random decoctions for 120s at no toxicity cost (up to 5 simultaneously).'},
+  {id:'piercing_cold',name:'Piercing Cold',types:['signs'],desc:'Aard has 30% freeze chance. Knocked-down + frozen = instant death.'},
+  {id:'mutated_skin',name:'Mutated Skin',types:['combat','alchemy'],desc:'Each AP reduces damage taken by 15% (max 45%).'},
+  {id:'bloodbath',name:'Bloodbath',types:['combat'],desc:'Each kill: +5% attack power until hit (max 250% in 5-stack increments).'},
+  {id:'conductors_magic',name:'Conductors of Magic',types:['signs','combat'],desc:'Sword attacks deal bonus damage equal to a % of Sign intensity.'},
+  {id:'magic_sensibilities',name:'Magic Sensibilities',types:['signs'],desc:'Sword critical hits trigger a random sign effect for free.'},
+  {id:'toxic_blood',name:'Toxic Blood',types:['alchemy'],desc:'Taking damage deals toxicity-scaled damage back to the attacker.'},
 ];
 
 // ─────────────────────────────
@@ -783,10 +842,12 @@ const S = {
     {mut:null, skills:[null,null,null]},
   ],
   mutation: null,
+  mutSlots: [null,null,null,null],
   tree: 'combat',
   sel: null,
   pendMG: null,
   pendSS: null,
+  pendBS: null,
 };
 
 // ─────────────────────────────
@@ -800,8 +861,8 @@ function branchPts(color) {
   return p;
 }
 function totalPts(){ return Object.values(S.skills).reduce((a,b)=>a+b,0); }
-function slottedCount(){ return S.slots.reduce((a,g)=>a+g.skills.filter(Boolean).length,0); }
-function isSlotted(id){ return S.slots.some(g=>g.skills.includes(id)); }
+function slottedCount(){ return S.slots.reduce(function(a,g){return a+g.skills.filter(Boolean).length;},0)+S.mutSlots.filter(Boolean).length; }
+function isSlotted(id){ return S.slots.some(function(g){return g.skills.includes(id);})||S.mutSlots.includes(id); }
 function tierUnlocked(treeName,req){
   return branchPts(TREES[treeName].color) >= req;
 }
@@ -914,61 +975,111 @@ function renderSN(id,sk,unlocked){
 // ─────────────────────────────
 // RENDER — slots
 // ─────────────────────────────
-function renderSlots(){
-  const SL=[1,2,4,6,8,10,12,15,18,22,26,30];
-  const mc={r:'red',b:'blue',g:'green'};
-  const mn={r:'RED MUTAGEN',b:'BLUE MUTAGEN',g:'GREEN MUTAGEN'};
-  let html='';
-  for(let g=0;g<4;g++){
-    const grp=S.slots[g];
-    const mut=grp.mut;
-    const cls=mut?mut+'m':'';
-    let matchCount=0;
-    for(const sid of grp.skills){
-      if(sid&&SKILLS[sid]&&mut&&SKILLS[sid].color===mc[mut]) matchCount++;
-    }
-    const synClass=!mut?'none':matchCount===3?'full':matchCount>0?'partial':'none';
-    const synText=!mut?'No mutagen':matchCount===3?'✦ Full Synergy':matchCount>0?`◆ ${matchCount}/3 match`:'◇ No match';
-    html+=`<div class="sg">
-      <div class="sg-hdr">
-        <div class="mut-d ${cls}" onclick="openMM(${g})" title="Set mutagen"></div>
-        <div><div class="sg-lbl">${mut?mn[mut]:'NO MUTAGEN'}</div><div style="font-size:7px;color:var(--text-d)">Group ${g+1}</div></div>
-      </div>
-      <div class="aslots">`;
-    for(let s=0;s<3;s++){
-      const idx=g*3+s;
-      const sid=grp.skills[s];
-      const lv=SL[idx]||30;
-      if(sid&&SKILLS[sid]){
-        const sk=SKILLS[sid];
-        const rank=S.skills[sid]||1;
-        const isMatch=mut&&sk.color===mc[mut];
-        html+=`<div class="aslot occ ${sk.color}${isMatch?' syn':''}">
-          <span class="ai">${sk.icon}</span>
-          <span class="an">${sk.name}</span>
-          <span class="ar">R${rank}</span>
-          <button class="armbtn" onclick="unslotGS(${g},${s})">✕</button>
-        </div>`;
-      } else {
-        html+='<div class="aslot empty" data-g="'+g+'" data-s="'+s+'">— slot '+(s+1)+' · lv '+lv+' —</div>';
-      }
-    }
-    html+=`</div><div class="syn-bar ${synClass}">${synText}</div></div>`;
+function mutConicGrad(types){
+  if(!types||types.length===0) return '#555';
+  var colorMap={combat:'#e05040',signs:'#3498db',alchemy:'#27ae60'};
+  var n=types.length;
+  var deg=360/n;
+  var stops='';
+  for(var i=0;i<types.length;i++){
+    var start=i*deg;
+    var end=(i+1)*deg;
+    stops+=(stops?',':'')+colorMap[types[i]]+' '+start+'deg '+end+'deg';
   }
-  document.getElementById('slots-grid').innerHTML=html;
+  return 'conic-gradient('+stops+')';
 }
 
-// ─────────────────────────────
-// RENDER — mutations
-// ─────────────────────────────
-function renderMutations(){
-  document.getElementById('mut-none').className='mut-none'+(S.mutation===null?' sel':'');
-  document.getElementById('mut-grid').innerHTML=MUTATIONS.map(m=>
-    `<div class="mo${S.mutation===m.id?' sel':''}" onclick="selMut('${m.id}')">
-      <div class="mo-name">${m.name}</div>
-      <div class="mo-desc">${m.desc}</div>
-    </div>`
-  ).join('');
+function renderMutCircle(){
+  var mut=S.mutation?MUTATIONS.find(function(m){return m.id===S.mutation;}):null;
+  var grad=mutConicGrad(mut?mut.types:null);
+  var name=mut?mut.name:'—';
+  var glowColors={combat:'rgba(224,80,64,.4)',signs:'rgba(52,152,219,.4)',alchemy:'rgba(39,174,96,.4)'};
+  var glow=mut?'0 0 16px '+glowColors[mut.types[0]]:'none';
+  return '<div class="mut-circle-wrap" onclick="openSelMutModal()" title="Click to select mutation">'
+    +'<div class="mut-circle" style="background:'+grad+';box-shadow:'+glow+'">'
+    +'<div class="mut-circle-inner">'
+    +'<span class="mut-circle-name">'+name+'</span>'
+    +'</div></div>'
+    +'<div class="mut-circle-hint">click to change</div>'
+    +'</div>';
+}
+
+function renderSlots(){
+  var SL=[1,2,4,6,8,10,12,15,18,22,26,30];
+  var mc={r:'red',b:'blue',g:'green'};
+  var mn={r:'RED MUTAGEN',b:'BLUE MUTAGEN',g:'GREEN MUTAGEN'};
+  var renderGroup=function(g){
+    var grp=S.slots[g];
+    var mut=grp.mut;
+    var cls=mut?mut+'m':'';
+    var matchCount=0;
+    for(var i=0;i<grp.skills.length;i++){
+      var sid=grp.skills[i];
+      if(sid&&SKILLS[sid]&&mut&&SKILLS[sid].color===mc[mut]) matchCount++;
+    }
+    var synClass=!mut?'none':matchCount===3?'full':matchCount>0?'partial':'none';
+    var synText=!mut?'No mutagen':matchCount===3?'❖ Full Synergy':matchCount>0?'◆ '+matchCount+'/3 match':'◇ No match';
+    var h='<div class="sg">'
+      +'<div class="sg-hdr">'
+      +'<div class="mut-d '+cls+'" onclick="openMM('+g+')" title="Set mutagen"></div>'
+      +'<div><div class="sg-lbl">'+(mut?mn[mut]:'NO MUTAGEN')+'</div>'
+      +'<div style="font-size:7px;color:var(--text-d)">Group '+(g+1)+'</div></div>'
+      +'</div><div class="aslots">';
+    for(var s=0;s<3;s++){
+      var idx=g*3+s;
+      var ssid=grp.skills[s];
+      var lv=SL[idx]||30;
+      if(ssid&&SKILLS[ssid]){
+        var sk=SKILLS[ssid];
+        var rank=S.skills[ssid]||1;
+        var isMatch=mut&&sk.color===mc[mut];
+        h+='<div class="aslot occ '+sk.color+(isMatch?' syn':'')+'">'
+          +'<span class="ai">'+sk.icon+'</span>'
+          +'<span class="an">'+sk.name+'</span>'
+          +'<span class="ar">R'+rank+'</span>'
+          +'<button class="armbtn" onclick="unslotGS('+g+','+s+')">&#10005;</button>'
+          +'</div>';
+      } else {
+        h+='<div class="aslot empty" data-g="'+g+'" data-s="'+s+'">&#8212; slot '+(s+1)+' · lv '+lv+' &#8212;</div>';
+      }
+    }
+    h+='</div><div class="syn-bar '+synClass+'">'+synText+'</div></div>';
+    return h;
+  };
+  var mutSection='';
+  if(S.mutation){
+    var mutObj=MUTATIONS.find(function(m){return m.id===S.mutation;});
+    var typeColors={combat:'var(--red-b)',signs:'var(--blue-b)',alchemy:'var(--green-b)'};
+    var barHTML=function(){
+      var b='<div class="slot-type-bar">';
+      for(var ti=0;ti<mutObj.types.length;ti++) b+='<div class="slot-type-seg" style="background:'+typeColors[mutObj.types[ti]]+'"></div>';
+      return b+'</div>';
+    };
+    var bSlot=function(i){
+      var sid=S.mutSlots[i];
+      if(sid&&SKILLS[sid]){
+        var sk=SKILLS[sid];
+        var rank=S.skills[sid]||1;
+        return '<div class="aslot occ '+sk.color+' mut-bonus-slot" data-bi="'+i+'">'
+          +'<span class="ai">'+sk.icon+'</span>'
+          +'<span class="an">'+sk.name+'</span>'
+          +'<span class="ar">R'+rank+'</span>'
+          +'<button class="armbtn" onclick="unslotBonusSlot('+i+')">&#10005;</button>'
+          +barHTML()+'</div>';
+      }
+      return '<div class="aslot empty mut-bonus-slot" data-bi="'+i+'" onclick="openBonusSM('+i+')">'
+        +'&#8212; bonus slot &#8212;'+barHTML()+'</div>';
+    };
+    mutSection='<div class="mut-bonus-row">'+bSlot(0)+bSlot(1)+'</div>'
+      +renderMutCircle()
+      +'<div class="mut-bonus-row">'+bSlot(2)+bSlot(3)+'</div>';
+  } else {
+    mutSection=renderMutCircle();
+  }
+  var html='<div class="groups-row">'+renderGroup(0)+renderGroup(1)+'</div>'
+    +'<div class="mut-section">'+mutSection+'</div>'
+    +'<div class="groups-row">'+renderGroup(2)+renderGroup(3)+'</div>';
+  document.getElementById('slots-grid').innerHTML=html;
 }
 
 // ─────────────────────────────
@@ -987,7 +1098,7 @@ function renderLevel(){
   document.getElementById('h-c').textContent=branchPts('red');
   document.getElementById('h-s').textContent=branchPts('blue');
   document.getElementById('h-a').textContent=branchPts('green');
-  document.getElementById('h-sl').textContent=slottedCount()+'/12';
+  document.getElementById('h-sl').textContent=slottedCount()+'/'+(S.mutation?16:12);
 }
 
 // ─────────────────────────────
@@ -1034,7 +1145,6 @@ function renderInfo(){
 function fullRender(){
   renderTree();
   renderSlots();
-  renderMutations();
   renderLevel();
   renderInfo();
   var mSpent = document.getElementById('m-spent');
@@ -1112,7 +1222,8 @@ function assignSlot(g,s){
   closeSM();fullRender();
 }
 function unslot(id){
-  S.slots.forEach(g=>{for(let s=0;s<3;s++)if(g.skills[s]===id)g.skills[s]=null;});
+  S.slots.forEach(function(g){for(var s=0;s<3;s++)if(g.skills[s]===id)g.skills[s]=null;});
+  for(var i=0;i<4;i++) if(S.mutSlots[i]===id) S.mutSlots[i]=null;
   fullRender();
 }
 function unslotGS(g,s){S.slots[g].skills[s]=null;fullRender();}
@@ -1125,7 +1236,76 @@ function openMM(g){
 function closeMM(){document.getElementById('mut-modal').classList.remove('show');S.pendMG=null;}
 function setMut(c){if(S.pendMG!==null)S.slots[S.pendMG].mut=c;closeMM();fullRender();}
 
-function selMut(id){S.mutation=id;renderMutations();}
+function openSelMutModal(){
+  var typeColors={combat:'var(--red-b)',signs:'var(--blue-b)',alchemy:'var(--green-b)'};
+  var html='<div class="mut-sel-none'+(S.mutation===null?' sel':'')+'" onclick="selMut(null)">&#8212; No Mutation Selected &#8212;</div>';
+  html+='<div class="mut-sel-grid">';
+  for(var i=0;i<MUTATIONS.length;i++){
+    var m=MUTATIONS[i];
+    var grad=mutConicGrad(m.types);
+    var typeLabels='';
+    for(var t=0;t<m.types.length;t++){
+      if(t>0) typeLabels+=' &middot; ';
+      typeLabels+='<span style="color:'+typeColors[m.types[t]]+'">'+m.types[t].charAt(0).toUpperCase()+m.types[t].slice(1)+'</span>';
+    }
+    html+='<div class="mut-sel-card'+(S.mutation===m.id?' sel':'')+'" onclick="selMut(\''+m.id+'\')">'
+      +'<div class="mut-sel-circle" style="background:'+grad+'"></div>'
+      +'<div class="mut-sel-body">'
+      +'<div class="mut-sel-name">'+m.name+'</div>'
+      +'<div class="mut-sel-types">'+typeLabels+'</div>'
+      +'<div class="mut-sel-desc">'+m.desc+'</div>'
+      +'</div></div>';
+  }
+  html+='</div>';
+  document.getElementById('sel-mut-grid').innerHTML=html;
+  document.getElementById('sel-mut-modal').classList.add('show');
+}
+function closeSelMutModal(){
+  document.getElementById('sel-mut-modal').classList.remove('show');
+}
+function openBonusSM(i){
+  var mut=MUTATIONS.find(function(m){return m.id===S.mutation;});
+  if(!mut) return;
+  S.pendBS=i;
+  var colorMap={combat:'red',signs:'blue',alchemy:'green'};
+  var validColors=mut.types.map(function(t){return colorMap[t];});
+  document.getElementById('bsm-hint').textContent='Accepts: '+mut.types.join(', ');
+  var html='';
+  var ids=Object.keys(SKILLS);
+  for(var k=0;k<ids.length;k++){
+    var id=ids[k];
+    var sk=SKILLS[id];
+    if(!(S.skills[id]>0)) continue;
+    if(validColors.indexOf(sk.color)===-1) continue;
+    if(isSlotted(id)) continue;
+    var rank=S.skills[id];
+    html+='<div class="smopt" onclick="assignBonusSlot('+i+',\''+id+'\')">'
+      +'<span style="font-size:9px;">'+sk.name+' R'+rank+'</span>'
+      +'</div>';
+  }
+  if(!html) html='<p style="font-size:10px;color:var(--text-d);">No eligible skills available.</p>';
+  document.getElementById('bsm-grid').innerHTML=html;
+  document.getElementById('bonus-slot-modal').classList.add('show');
+}
+function closeBonusSM(){
+  document.getElementById('bonus-slot-modal').classList.remove('show');
+  S.pendBS=null;
+}
+function assignBonusSlot(i,id){
+  S.mutSlots[i]=id;
+  closeBonusSM();
+  fullRender();
+}
+function unslotBonusSlot(i){
+  S.mutSlots[i]=null;
+  fullRender();
+}
+function selMut(id){
+  S.mutation=id;
+  S.mutSlots=[null,null,null,null];
+  closeSelMutModal();
+  fullRender();
+}
 
 // ─────────────────────────────
 // TOOLTIP
@@ -1193,14 +1373,36 @@ document.addEventListener('dragend',function(){
 document.addEventListener('drop',function(e){
   e.preventDefault();
   removeGhost();
-  document.querySelectorAll('.aslot.drag-over').forEach(el=>el.classList.remove('drag-over'));
+  document.querySelectorAll('.aslot.drag-over').forEach(function(el){el.classList.remove('drag-over');});
   if(!dragId)return;
-  const under=document.elementFromPoint(e.clientX,e.clientY);
+  var under=document.elementFromPoint(e.clientX,e.clientY);
   if(!under)return;
-  const slot=under.closest('.aslot');
+  var slot=under.closest('.aslot');
   if(!slot)return;
-  const g=parseInt(slot.dataset.g);
-  const s=parseInt(slot.dataset.s);
+
+  // Bonus slot drop
+  var biStr=slot.dataset.bi;
+  if(biStr!==undefined&&biStr!==''){
+    var bi=parseInt(biStr);
+    if(isNaN(bi))return;
+    if(S.mutSlots[bi])return;
+    var mut=MUTATIONS.find(function(m){return m.id===S.mutation;});
+    if(!mut)return;
+    var colorMap={combat:'red',signs:'blue',alchemy:'green'};
+    var validColors=mut.types.map(function(t){return colorMap[t];});
+    if(!SKILLS[dragId])return;
+    if(validColors.indexOf(SKILLS[dragId].color)===-1)return;
+    if(S.mutSlots.indexOf(dragId)!==-1)return;
+    unslot(dragId);
+    S.mutSlots[bi]=dragId;
+    dragId=null;
+    fullRender();
+    return;
+  }
+
+  // Standard slot drop
+  var g=parseInt(slot.dataset.g);
+  var s=parseInt(slot.dataset.s);
   if(isNaN(g)||isNaN(s))return;
   if(S.slots[g].skills[s])return;
   unslot(dragId);
@@ -1226,7 +1428,7 @@ document.addEventListener('contextmenu',function(e){
 // EXPORT / IMPORT / RESET
 // ─────────────────────────────
 function exportBuild(){
-  const code=btoa(JSON.stringify({skills:S.skills,slots:S.slots,mutation:S.mutation}));
+  var code=btoa(JSON.stringify({skills:S.skills,slots:S.slots,mutation:S.mutation,mutSlots:S.mutSlots}));
   const url=window.location.origin+window.location.pathname+'?b='+code;
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(url).then(()=>showExportToast('Build URL copied to clipboard!')).catch(()=>prompt('Copy this build URL:',url));
@@ -1255,17 +1457,20 @@ function importBuild(){
     S.skills=d.skills||{};
     S.slots=d.slots||[{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]}];
     S.mutation=d.mutation||null;
+    S.mutSlots=d.mutSlots||[null,null,null,null];
     fullRender();
-  }catch{alert('Invalid build code.');}
+  }catch(e){alert('Invalid build code.');}
 }
 function resetAll(){
   if(!confirm('Reset entire build?'))return;
-  Object.assign(S,{skills:{},slots:[{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]}],mutation:null,sel:null});
+  Object.assign(S,{skills:{},slots:[{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]}],mutation:null,mutSlots:[null,null,null,null],sel:null});
   fullRender();
 }
 
 document.getElementById('mut-modal').addEventListener('click',function(e){if(e.target===this)closeMM();});
 document.getElementById('slot-modal').addEventListener('click',function(e){if(e.target===this)closeSM();});
+document.getElementById('sel-mut-modal').addEventListener('click',function(e){if(e.target===this)closeSelMutModal();});
+document.getElementById('bonus-slot-modal').addEventListener('click',function(e){if(e.target===this)closeBonusSM();});
 
 // ─────────────────────────────
 // URL PARAM IMPORT
@@ -1279,6 +1484,7 @@ document.getElementById('slot-modal').addEventListener('click',function(e){if(e.
     if(d.skills)S.skills=d.skills;
     if(d.slots)S.slots=d.slots;
     if(d.mutation!==undefined)S.mutation=d.mutation;
+    if(d.mutSlots)S.mutSlots=d.mutSlots;
   }catch(e){console.warn('Could not parse build from URL:',e);}
 })();
 
