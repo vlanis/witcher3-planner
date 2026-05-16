@@ -804,10 +804,7 @@ document.getElementById('bonus-slot-modal').addEventListener('click',function(e)
     const b=params.get('b');
     if(!b)return;
     const d=decodeBuild(atob(b));
-    if(d.skills)S.skills=d.skills;
-    if(d.slots)S.slots=d.slots;
-    if(d.mutation!==undefined)S.mutation=d.mutation;
-    if(d.mutSlots)S.mutSlots=d.mutSlots;
+    S.skills=d.skills;S.slots=d.slots;S.mutation=d.mutation;S.mutSlots=d.mutSlots;
   }catch(e){console.warn('Could not parse build from URL:',e);}
 })();
 
