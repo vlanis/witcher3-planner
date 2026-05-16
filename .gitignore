@@ -9,3 +9,6 @@ Thumbs.db
 
 # Claude Code local settings (permissions, env overrides)
 .claude/settings.local.json
+
+# Superpowers skills
+.superpowers/
