@@ -140,6 +140,55 @@ const S = {
 };
 
 // ─────────────────────────────
+// BUILD ENCODE / DECODE
+// ─────────────────────────────
+function encodeBuild() {
+  var ids = Object.keys(SKILLS);
+  var skParts = [];
+  Object.keys(S.skills).forEach(function(id) {
+    var r = S.skills[id];
+    if (r > 0) skParts.push(ids.indexOf(id) + ':' + r);
+  });
+  var slotParts = S.slots.map(function(g) {
+    var m = g.mut || '-';
+    var sk = g.skills.map(function(id) { return id ? String(ids.indexOf(id)) : '-'; });
+    return [m, sk[0], sk[1], sk[2]].join(',');
+  });
+  var mi = S.mutation ? MUTATIONS.findIndex(function(m) { return m.id === S.mutation; }) : -1;
+  var ms = S.mutSlots.map(function(id) { return id ? String(ids.indexOf(id)) : '-'; });
+  return btoa(skParts.join(',') + '~' + slotParts.join('|') + '~' + (mi >= 0 ? mi : '-') + '~' + ms.join(','));
+}
+function decodeBuild(raw) {
+  var ids = Object.keys(SKILLS);
+  var parts = raw.split('~');
+  var skills = {};
+  if (parts[0]) {
+    parts[0].split(',').forEach(function(p) {
+      var kv = p.split(':');
+      if (kv.length === 2) { var id = ids[parseInt(kv[0])]; var r = parseInt(kv[1]); if (id && r > 0) skills[id] = r; }
+    });
+  }
+  var slots = [{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]}];
+  if (parts[1]) {
+    parts[1].split('|').forEach(function(gStr, gi) {
+      if (gi >= 4) return;
+      var f = gStr.split(',');
+      slots[gi].mut = (f[0] && f[0] !== '-') ? f[0] : null;
+      for (var si = 0; si < 3; si++) slots[gi].skills[si] = (f[si+1] && f[si+1] !== '-') ? (ids[parseInt(f[si+1])] || null) : null;
+    });
+  }
+  var mutation = null;
+  if (parts[2] && parts[2] !== '-') { var mi = parseInt(parts[2]); if (MUTATIONS[mi]) mutation = MUTATIONS[mi].id; }
+  var mutSlots = [null,null,null,null];
+  if (parts[3]) {
+    parts[3].split(',').forEach(function(f, i) {
+      if (i < 4) mutSlots[i] = (f && f !== '-') ? (ids[parseInt(f)] || null) : null;
+    });
+  }
+  return {skills:skills, slots:slots, mutation:mutation, mutSlots:mutSlots};
+}
+
+// ─────────────────────────────
 // HELPERS
 // ─────────────────────────────
 function branchPts(color) {
@@ -706,10 +755,10 @@ document.addEventListener('contextmenu',function(e){
 // EXPORT / IMPORT / RESET
 // ─────────────────────────────
 function exportBuild(){
-  var code=btoa(JSON.stringify({skills:S.skills,slots:S.slots,mutation:S.mutation,mutSlots:S.mutSlots}));
-  const url=window.location.origin+window.location.pathname+'?b='+code;
+  var code=encodeBuild();
+  const url=window.location.origin+window.location.pathname+'?b='+encodeURIComponent(code);
   if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url).then(()=>showExportToast('Build URL copied to clipboard!')).catch(()=>prompt('Copy this build URL:',url));
+    navigator.clipboard.writeText(url).then(function(){showExportToast('Build URL copied to clipboard!');}).catch(function(){prompt('Copy this build URL:',url);});
   } else {
     prompt('Copy this build URL:',url);
   }
@@ -729,13 +778,9 @@ function importBuild(){
   const code=prompt('Paste build code or URL:');
   if(!code)return;
   try{
-    // support both raw code and full URL
-    const raw=code.includes('?b=')?code.split('?b=')[1]:code;
-    const d=JSON.parse(atob(raw));
-    S.skills=d.skills||{};
-    S.slots=d.slots||[{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]},{mut:null,skills:[null,null,null]}];
-    S.mutation=d.mutation||null;
-    S.mutSlots=d.mutSlots||[null,null,null,null];
+    const raw=code.includes('?b=')?decodeURIComponent(code.split('?b=')[1]):code;
+    const d=decodeBuild(atob(raw));
+    S.skills=d.skills;S.slots=d.slots;S.mutation=d.mutation;S.mutSlots=d.mutSlots;
     fullRender();
   }catch(e){alert('Invalid build code.');}
 }
@@ -758,7 +803,7 @@ document.getElementById('bonus-slot-modal').addEventListener('click',function(e)
     const params=new URLSearchParams(window.location.search);
     const b=params.get('b');
     if(!b)return;
-    const d=JSON.parse(atob(b));
+    const d=decodeBuild(atob(b));
     if(d.skills)S.skills=d.skills;
     if(d.slots)S.slots=d.slots;
     if(d.mutation!==undefined)S.mutation=d.mutation;

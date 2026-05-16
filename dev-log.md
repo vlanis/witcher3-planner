@@ -15,6 +15,24 @@ Running log of changes, bugs, and decisions. Update this after every Claude CLI 
 
 ---
 
+## 2026-05-15 — Compact build export string
+
+**Changed:**
+- Replaced `btoa(JSON.stringify(...))` export with a custom delimited format using numeric indices.
+- Format: `{skillSeg}~{slotSeg}~{mutSeg}~{mutSlotsSeg}` — skills as `idx:rank` pairs, slots as 4 `mut,s0,s1,s2` groups separated by `|`, mutation as index 0–7 or `-`, mutSlots as 4 indices or `-`.
+- Indices derived from `Object.keys(SKILLS)` (insertion order) and `MUTATIONS` array position — both fixed constants, order must not change.
+- Added `encodeBuild()` and `decodeBuild()` helpers; updated `exportBuild()`, `importBuild()`, and URL IIFE to use them.
+- Applied `encodeURIComponent()` to the `?b=` value in the exported URL; `decodeURIComponent()` in `importBuild` when a full URL is pasted.
+- Result: ~75% smaller export strings (e.g. mid-size build: ~760 → ~200 chars Base64).
+
+**Why:** Full string IDs and JSON structure made even small builds produce 400–800 char URLs. Standard Base64 `+`/`/` chars in query strings are URL-unsafe (`+` decoded as space by `URLSearchParams`), which broke loading — fixed with percent-encoding on export.
+
+**Watch out:**
+- `Object.keys(SKILLS)` key order is the index table. Never reorder SKILLS or MUTATIONS entries — it would silently corrupt all existing shared URLs.
+- Standard Base64 uses `+` and `/` which break in raw query strings; always use `encodeURIComponent` when embedding Base64 in a URL param.
+
+---
+
 ## 2026-05-15 — CSS and data extraction
 
 **Changed:**
