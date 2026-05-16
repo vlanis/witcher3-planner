@@ -67,26 +67,26 @@ Skills are defined in `const SKILLS` (flat lookup by id) and `const TREES` (grid
 
 ### Combat skill definitions
 
-**muscle_memory** — Muscle Memory — Fast attack dmg +5/10/15%; AP gain +1/2/3%
-**precise_blows** — Precise Blows — Fast crit +2/4/6%, crit dmg +15/30/45%; AP +1/2/3%
-**whirl** — Whirl — Alternate spinning fast attack hitting all nearby. Stamina/AP cost. Dmg +5/10/15%; AP +1/2/3%
-**crippling_strikes** — Crippling Strikes — Fast attacks inflict Bleed (25 vit/s, 5s). AP +1/2/3%
-**strength_training** — Strength Training — Strong atk dmg +5/10/15%; AP +1/2/3%
-**crushing_blows** — Crushing Blows — Strong crit +2/4/6%, crit dmg +15/30/45%; AP +1/2/3%
-**rend** — Rend — Charged strong attack, ignores defense, +10% crit, AP boosts total dmg 100%. Range +1m at R2. Charge speed +25% at R3
-**sunder_armor** — Sunder Armor — Strong attacks permanently reduce enemy damage resistance by 5/10/15% per hit; AP +1/2/3%
-**arrow_deflection** — Arrow Deflection — Parrying deflects arrows. R2: deflected arrows stagger shooter. R3: deflected arrows damage shooter
-**fleet_footed** — Fleet Footed — Damage taken while dodging −20/60/100%; AP +1/2/3%
-**counterattack** — Counterattack — After successful counter, next attack deals +30/60/90% damage; AP +1/2/3%
-**deadly_precision** — Deadly Precision — Each AP adds +1/2/3% instant kill chance; AP +1/2/3%
-**lightning_reflexes** — Lightning Reflexes — Time slowed +15/30/45% extra when aiming crossbow; AP +1/2/3%
-**cold_blood** — Cold Blood — Each crossbow hit generates +0.04/0.06/0.08 AP; AP gen +1/2/3%
-**anatomical_knowledge** — Anatomical Knowledge — Crossbow crit chance +5/10/15%; AP +1/2/3%
-**crippling_shot** — Crippling Shot — Crossbow crits disable monster special abilities for 5/7/10s; AP +1/2/3%
-**resolve** — Resolve — AP loss on taking damage −20/60/100%; AP gen +1/2/3%
-**undying** — Undying — Vitality hits 0 → AP consumed to restore vitality (×1/2/3 per AP); AP gen +1/2/3%
-**razor_focus** — Razor Focus — +1 AP on combat start; sword AP gen +5/10/15%; total AP gen +1/2/3%
-**flood_of_anger** — Flood of Anger — Casting a sign spends 3 AP to upgrade sign to max level and boost intensity +25/50/75%; AP gen +1/2/3%
+**muscle_memory** — Muscle Memory — Fast attack dmg +10/20/30%; AP gain +1/2/3%
+**precise_blows** — Precise Blows — Fast crit +4/8/12%, crit dmg +25/50/75%; AP +1/2/3%
+**whirl** — Whirl — Alternate spinning fast attack hitting all nearby. Stamina/AP cost. R2: cost −33%. R3: cost −50%; AP +1/2/3%
+**crippling_strikes** — Crippling Strikes — Fast attacks inflict Bleed (50/100/150 vit/s, 5s). AP +1/2/3%
+**strength_training** — Strength Training — Strong atk dmg +10/20/30%; AP +1/2/3%
+**crushing_blows** — Crushing Blows — Strong crit +4/8/12%, crit dmg +25/50/75%; AP +1/2/3%
+**rend** — Rend — Charged strong attack, ignores defense. Crit chance +20/40/60%. AP boosts total dmg 33%; AP +1/2/3%
+**sunder_armor** — Sunder Armor — Strong attacks permanently reduce enemy damage resistance by 10/20/30% per hit; AP +1/2/3%
+**arrow_deflection** — Arrow Deflection — Max rank 2. R1: parrying deflects arrows. R2: perfectly timed parries reflect arrows back at shooter
+**fleet_footed** — Fleet Footed — Max rank 1. Damage taken while dodging −100%; AP +1%
+**counterattack** — Counterattack — After successful counter, next attack +30/60/90% dmg. R2 adds knockdown chance. R3 makes it a crit + knockdown; AP +1/2/3%
+**deadly_precision** — Deadly Precision — Max rank 2. Each AP adds +1/2% instant kill chance; AP +1/2%
+**lightning_reflexes** — Lightning Reflexes — Max rank 1. Time slowed +50% while aiming crossbow; AP +1%
+**cold_blood** — Cold Blood — Each crossbow hit generates +0.1/0.2/0.3 AP; AP gen +1/2/3%
+**anatomical_knowledge** — Anatomical Knowledge — Crossbow crit chance +20/40/60%; AP +1/2/3%
+**crippling_shot** — Crippling Shot — Crossbow crits disable monster special abilities for 10/20/30s; AP +1/2/3%
+**resolve** — Resolve — AP loss on taking damage −33/67/100%; AP gen +1/2/3%
+**undying** — Undying — Vitality hits 0 → AP consumed to restore vitality. R2: +33% bonus. R3: +67% bonus; AP gen +1/2/3%
+**razor_focus** — Razor Focus — +1 AP on combat start; sword AP gen +10/20/30%; total AP gen +1/2/3%
+**flood_of_anger** — Flood of Anger — Casting a sign spends 3 AP to upgrade sign to max level and boost intensity +100/200/300%; AP gen +1/2/3%
 
 ---
 
@@ -106,19 +106,19 @@ Skills are defined in `const SKILLS` (flat lookup by id) and `const TREES` (grid
 ### Signs skill definitions
 
 **far_reaching_aard** — Far-Reaching Aard — Aard range +1/2/3m; stam regen +0.5/1/1.5/s
-**aard_sweep** — Aard Sweep — Alternate mode: 360° blast. Knockdown chance +5/10/15%; stam regen +0.5/1/1.5/s
-**shock_wave** — Shock Wave — Aard deals 40/80/120 damage to knocked-down/staggered enemies; stam regen +0.5/1/1.5/s
+**aard_sweep** — Aard Sweep — Alternate mode: 360° blast. Knockdown chance is −21% at R1, −17% at R2, full at R3; stam regen +0.5/1/1.5/s
+**shock_wave** — Shock Wave — Aard deals 100/200/300 damage (scales with enemy level at R3); stam regen +0.5/1/1.5/s
 **aard_intensity** — Aard Intensity — Aard intensity +5/10/15%; stam regen +0.5/1/1.5/s
-**melt_armor** — Melt Armor — Igni permanently reduces enemy armor per hit (max 15/45/75%); stam regen +0.5/1/1.5/s
-**firestream** — Firestream — Alternate mode: continuous fire stream. Burn chance +5/10/15%; stam regen +0.5/1/1.5/s
+**melt_armor** — Melt Armor — Igni permanently reduces enemy armor per hit (max 15/30/45%); stam regen +0.5/1/1.5/s
+**firestream** — Firestream — Alternate mode: continuous fire stream. R2: stamina cost −25%. R3: −50%; stam regen +0.5/1/1.5/s
 **pyromaniac** — Pyromaniac — Igni burn chance +20/40/60%; stam regen +0.5/1/1.5/s
 **igni_intensity** — Igni Intensity — Igni intensity +5/10/15%; stam regen +0.5/1/1.5/s
 **sustained_glyphs** — Sustained Glyphs — Yrden duration +5/10s; 2/3 simultaneous alt traps. Max rank 2
 **magic_trap** — Magic Trap — Alternate mode: stationary trap damages enemies and destroys projectiles. Radius 10/12/14yd; dmg +0/25/50%
 **supercharged_glyphs** — Supercharged Glyphs — Enemies in Yrden lose −10/20/30 vitality/s; stam regen +0.5/1/1.5/s
 **yrden_intensity** — Yrden Intensity — Yrden intensity +5/10/15%; stam regen +0.5/1/1.5/s
-**exploding_shield** — Exploding Shield — Quen breaks with explosion + knockback. R2: +50% explosion dmg. R3: +100% + stun chance
-**active_shield** — Active Shield — Alternate Quen: sustained shield converts absorbed dmg to 30/60/100% vitality; stam drain while active (R3: no drain when idle)
+**exploding_shield** — Exploding Shield — Quen breaks: push back. R2: + deals damage. R3: + knockdown chance
+**active_shield** — Active Shield — Alternate Quen: sustained shield; absorbed dmg restores vitality. R2: stamina drain −50%. R3: no stamina drain while maintaining
 **quen_discharge** — Quen Discharge — 5/10/15% of absorbed damage reflected to attacker
 **quen_intensity** — Quen Intensity — Quen intensity +5/10/15%; stam regen +0.5/1/1.5/s
 **delusion** — Delusion — Axii in combat enhanced + unlocks Axii dialogue persuasion options (T1/T2/T3 dialogue tiers); stam regen +0.5/1/1.5/s
@@ -143,24 +143,24 @@ Skills are defined in `const SKILLS` (flat lookup by id) and `const TREES` (grid
 
 ### Alchemy skill definitions
 
-**heightened_tolerance** — Heightened Tolerance — Overdose threshold +1/2/3%; potion duration +5/10/15%
-**refreshment** — Refreshment — Drinking a potion heals 5/10/15% max Vitality; potion duration +5/10/15%
-**delayed_recovery** — Delayed Recovery — Potions stay active until toxicity drops below 90/70/55% max; potion duration +5/10/15%
+**heightened_tolerance** — Heightened Tolerance — Overdose threshold (base 50%) raised to 60/70/80%; potion duration & bomb dmg +5/10/15%
+**refreshment** — Refreshment — Drinking a potion heals 10/20/30% max Vitality; potion duration & bomb dmg +5/10/15%
+**delayed_recovery** — Delayed Recovery — Potions stay active until toxicity drops below 90/80/70% max; potion duration +5/10/15%
 **side_effects** — Side Effects — 20/40/60% chance drinking a potion also activates another random potion for free; duration +5/10/15%
-**poisoned_blades** — Poisoned Blades — Oil on blade gives 3/6/9% poison chance per hit; duration +5/10/15%
-**protective_coating** — Protective Coating — Applying oil grants +5/10/15% resistance to that monster type; duration +5/10/15%
-**fixative** — Fixative — Oil charges ×1.33/1.67; R3: oils do not degrade until resting; duration +5/10/15%
+**poisoned_blades** — Poisoned Blades — Oil on blade gives 5/10/15% poison chance per hit; duration & bomb dmg +5/10/15%
+**protective_coating** — Protective Coating — Applying oil grants +5/10/15% resistance to that monster type; duration & bomb dmg +5/10/15%
+**fixative** — Fixative — Oil charges +33/67%; R2: 2 oils on sword; R3: oils do not wear off + 3 oils on sword; duration +5/10/15%
 **hunter_instinct** — Hunter Instinct — When AP is max, crit dmg vs oil-target monster type +20/40/60%; duration +5/10/15%
-**steady_aim** — Steady Aim — Time slowed 15/30/45% while aiming bombs; duration +5/10/15%
-**pyrotechnics** — Pyrotechnics — Non-damaging bombs deal +30/60/90 bonus damage; duration +5/10/15%
+**steady_aim** — Steady Aim — Max rank 1. Time slowed 50% while aiming bombs; duration & bomb dmg +5%
+**pyrotechnics** — Pyrotechnics — All bombs deal +50/100/150 bonus damage; duration & bomb dmg +5/10/15%
 **efficiency** — Efficiency — Max bombs per slot +1/2/3; duration +5/10/15%
 **cluster_bombs** — Cluster Bombs — Bombs split into 2/3/4 fragments on detonation; duration +5/10/15%
-**acquired_tolerance** — Acquired Tolerance — Each known alchemy formula +1 max Toxicity (T1: Lvl1 only; T2: Lvl1+2; T3: all levels); duration +5/10/15%
-**tissue_transmutation** — Tissue Transmutation — Active decoction grants +200/400/600 max Vitality for its duration; potion duration +5/10/15%
+**acquired_tolerance** — Acquired Tolerance — Each known alchemy formula +0.5 max Toxicity (T1: Lvl1 only; T2: Lvl1+2; T3: all levels); duration & bomb dmg +5/10/15%
+**tissue_transmutation** — Tissue Transmutation — Active decoction grants +300/600/900 max Vitality for its duration; duration & bomb dmg +5/10/15%
 **synergy** — Synergy — Mutagen slot bonus +10/20/30%; potion duration +5/10/15%
 **adaptation** — Adaptation — Decoction duration +10/20/30%; potion duration +5/10/15%
-**frenzy** — Frenzy — If toxicity >0, time slows when enemy is about to counterattack. R2+: effect stronger; duration +5/10/15%
-**endure_pain** — Endure Pain — When toxicity exceeds safe threshold, max Vitality +10/20/30%; duration +5/10/15%
+**frenzy** — Frenzy — If toxicity >0, time slows when enemy is about to counterattack. R2+: effect stronger; duration & bomb dmg +5/10/15%
+**endure_pain** — Endure Pain — When toxicity exceeds safe threshold, max Vitality +10/20/30%; duration & bomb dmg +5/10/15%
 **fast_metabolism** — Fast Metabolism — Toxicity drops 1/2/3pt/s faster; duration +5/10/15%
 **killing_spree** — Killing Spree — If toxicity >0, each kill gives +10/20/30% crit chance for the fight; duration +5/10/15%
 
@@ -203,14 +203,14 @@ The `types` array on each mutation drives the conic-gradient colors on the mutat
 
 | ID | Name | Types | Effect |
 |----|------|-------|--------|
-| euphoria | Euphoria | alchemy | Each toxicity point: sword dmg and sign intensity +0.75% |
-| metamorphosis | Metamorphosis | combat, signs, alchemy | Critical effects trigger random free decoctions for 120s (up to 5 simultaneously) |
-| piercing_cold | Piercing Cold | signs | Aard 30% freeze chance; knocked-down + frozen = instant death |
-| mutated_skin | Mutated Skin | combat, alchemy | Each AP reduces damage taken by 15% (max 45%) |
-| bloodbath | Bloodbath | combat | Each kill: attack power +5% until Geralt takes damage (max 25 stacks) |
-| conductors_magic | Conductors of Magic | signs, combat | Sword attacks deal bonus damage equal to a % of sign intensity |
-| magic_sensibilities | Magic Sensibilities | signs | Sword crits trigger a random sign effect for free |
-| toxic_blood | Toxic Blood | alchemy | Taking damage deals toxicity-scaled damage back to the attacker |
+| euphoria | Euphoria | alchemy | Each point of Toxicity increases damage dealt by swords and Sign Intensity by 0.75% (to a maximum of 75%) |
+| metamorphosis | Metamorphosis | combat, signs, alchemy | Applying critical effects activates a random decoction for 120s at no Toxicity cost (max 3 simultaneous) |
+| piercing_cold | Piercing Cold | signs | Aard has 25% freeze chance; knocked-down + frozen = instant death; non-frozen targets take additional damage |
+| mutated_skin | Mutated Skin | combat, alchemy | Each Adrenaline Point decreases damage received by 15% (to a maximum of 45%) |
+| bloodbath | Bloodbath | combat | Fatal sword blows dismember or trigger finisher; each melee hit +5% Attack Power (max 250%); lost on taking damage |
+| conductors_magic | Conductors of Magic | signs, combat | When drawn, magic/unique/witcher swords increase Sign damage dealt by 50% of their own damage dealt |
+| magic_sensibilities | Magic Sensibilities | signs | Signs can deal critical hits (chance and damage scale with Sign Intensity); opponents killed by Sign crits explode |
+| toxic_blood | Toxic Blood | alchemy | Each melee hit received deals back 1.5% of damage per Toxicity point to the attacker (max 150%) |
 
 ---
 

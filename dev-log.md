@@ -15,6 +15,62 @@ Running log of changes, bugs, and decisions. Update this after every Claude CLI 
 
 ---
 
+## 2026-05-16 — Full skill data accuracy pass from Fandom wiki (Patch 4.0)
+
+**Changed:** Comprehensive correction of all four trees by reading wiki tables directly via browser. All changes below are Patch 4.0 values replacing old pre-4.0 data.
+
+**COMBAT:**
+- `muscle_memory`: fast atk dmg +5/10/15% → +10/20/30%
+- `precise_blows`: crit +2/4/6%, dmg +15/30/45% → crit +4/8/12%, dmg +25/50/75%
+- `whirl`: stamina cost −10/20% → −33/50%
+- `crippling_strikes`: 25 vit/s (scaling desc) → 50/100/150 vit/s for 5s
+- `strength_training`: +5/10/15% → +10/20/30%
+- `crushing_blows`: crit +2/4/6%, dmg +15/30/45% → crit +4/8/12%, dmg +25/50/75%
+- `rend`: crit +10% / AP dmg 100% → crit +20/40/60% / AP dmg 33%
+- `sunder_armor`: −5/10/15% → −10/20/30%
+- `arrow_deflection`: max 3 → max 2 (level 3 removed in patch 4.0)
+- `fleet_footed`: max 3 (20/60/100%) → max 1 (100%)
+- `counterattack`: add knockdown at R2, crit+knockdown at R3
+- `deadly_precision`: max 3 → max 2 (level 3 removed)
+- `lightning_reflexes`: max 3 (+15/30/45%) → max 1 (+50%)
+- `cold_blood`: +0.04/0.06/0.08 AP → +0.1/0.2/0.3 AP
+- `anatomical_knowledge`: +5/10/15% → +20/40/60%
+- `crippling_shot`: 5/7/10s → 10/20/30s
+- `resolve`: −20/60/100% → −33/67/100%
+- `undying`: ×2/×3 → +33%/+67% bonus language
+- `razor_focus`: sword AP gen +5/10/15% → +10/20/30%
+- `flood_of_anger`: intensity +25/50/75% → +100/200/300%
+
+**SIGNS:**
+- `aard_sweep`: knockdown bonus → knockdown penalty (−21/−17/0%) description fixed
+- `shock_wave`: 40/80/120 dmg → 100/200/300 dmg
+- `melt_armor`: max 15/45/75% → max 15/30/45%
+- `firestream`: burn chance (+5/10%) → stamina cost (−25/50%)
+- `exploding_shield`: stun → knockdown; removed invented % dmg values
+- `active_shield`: 30/60/100% vitality conversion → stamina drain reduction description
+
+**ALCHEMY:**
+- `heightened_tolerance`: "+1/2/3% threshold" → "threshold 50%→60/70/80%"; adds bomb dmg bonus
+- `refreshment`: 5/10/15% → 10/20/30%; adds bomb dmg bonus
+- `delayed_recovery`: 90/70/55% → 90/80/70%
+- `poisoned_blades`: 3/6/9% → 5/10/15%; adds bomb dmg bonus
+- `protective_coating`: adds bomb dmg bonus
+- `fixative`: adds "2/3 oils on sword" mechanic (new in patch 4.0)
+- `steady_aim`: max 3 (15/30/45%) → max 1 (50%); adds bomb dmg bonus
+- `pyrotechnics`: +30/60/90 → +50/100/150; adds bomb dmg bonus
+- `acquired_tolerance`: +1 → +0.5 per formula; adds bomb dmg bonus
+- `tissue_transmutation`: +200/400/600 → +300/600/900 Vitality; adds bomb dmg bonus
+- `frenzy`: adds bomb dmg bonus
+- `endure_pain`: adds bomb dmg bonus
+
+**Why:** Wiki tables were read directly via Chrome browser (previous session had no access). Nearly every skill had at least one wrong value — most were pre-4.0 rank 1–3 values that were never updated when max ranks were reduced and bonuses rescaled.
+
+**Watch out:**
+- `arrow_deflection` (max:2), `fleet_footed` (max:1), `deadly_precision` (max:2), `lightning_reflexes` (max:1), `steady_aim` (max:1) now have fewer ranks. The `ranks[]` array length now matches `max`. The TREES grid positions are unchanged — only the SKILLS entries differ.
+- Many alchemy skills now have "duration & bomb dmg +" pattern. The bomb dmg bonus from alchemy skills is a new Patch 4.0 mechanic.
+
+---
+
 ## 2026-05-15 — Compact build export string
 
 **Changed:**
